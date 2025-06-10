@@ -1,0 +1,14 @@
+{
+  "name": "@nimbus/server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist"
+  },
+  "dependencies": {
+    "hono": "^4.7.11",
+    "zod": "^3.25.57"
+  }
+}
