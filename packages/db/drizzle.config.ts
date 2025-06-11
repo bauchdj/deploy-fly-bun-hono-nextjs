@@ -1,11 +1,13 @@
-import "dotenv/config";
+import { config } from "@nimbus/config";
 import { defineConfig } from "drizzle-kit";
 
-export default defineConfig({
+const drizzleConfig = defineConfig({
 	out: "./drizzle",
 	schema: "./src/schema/*",
 	dialect: "postgresql",
 	dbCredentials: {
-		url: process.env.DATABASE_URL!,
+		url: config.env.DATABASE_URL,
 	},
 });
+
+export default drizzleConfig;

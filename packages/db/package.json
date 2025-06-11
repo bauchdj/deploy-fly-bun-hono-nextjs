@@ -3,21 +3,31 @@
 	"version": "0.1.0",
 	"type": "module",
 	"private": true,
+	"exports": {
+		".": "./src/index.ts",
+		"./schema/user": "./src/schema/user.ts"
+	},
 	"scripts": {
-		"db:push": "bun drizzle-kit push --config=drizzle.config.ts"
+		"build": "bun build src/index.ts --outdir dist --target bun",
+		"db:generate": "bun --bun run drizzle-kit generate --config=drizzle.config.ts",
+		"db:migrate": "bun --bun run drizzle-kit migrate --config=drizzle.config.ts",
+		"db:push": "bun --bun run drizzle-kit push --config=drizzle.config.ts",
+		"db:up": "docker compose up -d",
+		"db:down": "docker compose down",
+		"db:reset": "docker compose down -v && docker compose up -d"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.44.2",
+		"pg": "^8.16.0"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
 		"@types/pg": "^8.15.4",
+		"dotenv": "^16.5.0",
 		"drizzle-kit": "^0.31.1",
 		"tsx": "^4.20.1"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
-	},
-	"dependencies": {
-		"dotenv": "^16.5.0",
-		"drizzle-orm": "^0.44.2",
-		"pg": "^8.16.0"
 	}
 }

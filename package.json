@@ -1,27 +1,47 @@
 {
 	"name": "nimbus-test",
-	"module": "index.ts",
+	"version": "0.1.0",
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"dev:web": "bun --cwd=apps/web dev",
-		"dev:server": "bun --cwd=apps/server dev",
 		"dev": "concurrently --names \"WEB,SERVER\" --prefix-colors \"cyan,magenta\" --prefix \"[{name}]\" --kill-others-on-fail \"bun --cwd=apps/web dev\" \"bun --cwd=apps/server dev\"",
-		"build:web": "bun run --cwd=apps/web build",
+		"dev:server": "bun --cwd=apps/server dev",
+		"dev:web": "bun --cwd=apps/web dev",
+		"build": "concurrently --names \"WEB,SERVER\" --prefix-colors \"cyan,magenta\" --prefix \"[{name}]\" --kill-others-on-fail \"bun run --cwd=apps/web build\" \"bun run --cwd=apps/server build\"",
 		"build:server": "bun run --cwd=apps/server build",
-		"build": "concurrently \"bun run --cwd=apps/web build\" \"bun run --cwd=apps/server build\"",
-		"start:web": "bun --cwd=apps/web start",
+		"build:web": "bun run --cwd=apps/web build",
+		"start": "concurrently --names \"WEB,SERVER\" --prefix-colors \"cyan,magenta\" --prefix \"[{name}]\" --kill-others-on-fail \"bun --cwd=apps/web start\" \"bun --cwd=apps/server start\"",
 		"start:server": "bun --cwd=apps/server start",
-		"start": "concurrently --names \"WEB,SERVER\" --prefix-colors \"cyan,magenta\" --prefix \"[{name}]\" --kill-others-on-fail \"bun --cwd=apps/web start\" \"bun --cwd=apps/server start\""
+		"start:web": "bun --cwd=apps/web start",
+		"lint": "bun run oxlint && eslint .",
+		"lint:fix": "bun run oxlint --fix && eslint . --fix",
+		"db:generate": "bun run --cwd=packages/db db:generate",
+		"db:migrate": "bun run --cwd=packages/db db:migrate",
+		"db:push": "bun run --cwd=packages/db db:push",
+		"db:reset": "bun run --cwd=packages/db db:reset",
+		"db:up": "bun run --cwd=packages/db db:up",
+		"db:down": "bun run --cwd=packages/db db:down",
+		"env:sync": "bun run scripts/copy-env-files.ts",
+		"env:sync:dry-run": "bun run scripts/copy-env-files.ts --dry-run",
+		"env:clean": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\" -print0 | xargs -0 rm -f",
+		"env:clean:dry-run": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\""
 	},
 	"devDependencies": {
+		"@eslint/eslintrc": "^3",
 		"@types/bun": "latest",
-		"concurrently": "^9.1.2"
+		"@types/glob": "^8.1.0",
+		"concurrently": "^9.1.2",
+		"eslint": "^9",
+		"eslint-config-next": "15.3.3",
+		"eslint-plugin-oxlint": "^1.0.0",
+		"glob": "^11.0.2",
+		"oxlint": "^1.0.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
 	},
-	"dependencies": {
-		"dotenv": "^16.5.0"
-	}
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
 }

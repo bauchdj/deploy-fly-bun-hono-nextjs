@@ -41,7 +41,7 @@ async function getFlySecrets(): Promise<string[]> {
 		stdout: "pipe",
 		stderr: "inherit",
 	});
-	
+
 	const text = await new Response(proc.stdout).text();
 	if (!text) {
 		throw new Error("Failed to get Fly secrets: empty response");
@@ -52,15 +52,13 @@ async function getFlySecrets(): Promise<string[]> {
 		throw new Error("Failed to get Fly secrets: unexpected format");
 	}
 
-	const secretKeys = lines
-		.slice(1)
-		.map((line) => {
-			const parts = line.split(/\s+/);
-			if (!parts[0]) {
-				throw new Error(`Failed to parse secret key from line: ${line}`);
-			}
-			return parts[0];
-		});
+	const secretKeys = lines.slice(1).map((line) => {
+		const parts = line.split(/\s+/);
+		if (!parts[0]) {
+			throw new Error(`Failed to parse secret key from line: ${line}`);
+		}
+		return parts[0];
+	});
 
 	return secretKeys;
 }
