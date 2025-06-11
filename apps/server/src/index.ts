@@ -1,8 +1,11 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 const app = new Hono();
 
-app.get("/", (c) => {
+app.use(cors({ origin: "*" }));
+
+app.get("/hello-hono", (c) => {
 	return c.text("Hello Hono!");
 });
 
