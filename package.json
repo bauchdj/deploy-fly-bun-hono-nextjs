@@ -3,8 +3,20 @@
 	"module": "index.ts",
 	"type": "module",
 	"private": true,
+	"scripts": {
+		"dev:web": "bun --cwd=apps/web dev",
+		"dev:server": "bun --cwd=apps/server dev",
+		"dev": "concurrently --names \"WEB,SERVER\" --prefix-colors \"cyan,magenta\" --prefix \"[{name}]\" --kill-others-on-fail \"bun --cwd=apps/web dev\" \"bun --cwd=apps/server dev\"",
+		"build:web": "bun run --cwd=apps/web build",
+		"build:server": "bun run --cwd=apps/server build",
+		"build": "concurrently \"bun run --cwd=apps/web build\" \"bun run --cwd=apps/server build\"",
+		"start:web": "bun --cwd=apps/web start",
+		"start:server": "bun --cwd=apps/server start",
+		"start": "concurrently \"bun --cwd=apps/web start\" \"bun --cwd=apps/server start\""
+	},
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"concurrently": "^9.1.2"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

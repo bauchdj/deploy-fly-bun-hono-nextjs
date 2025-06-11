@@ -1,15 +1,12 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 
 const app = new Hono();
 
-app.use("*", cors());
-
-app.get("/", (c) => c.json({ message: "Hello from Hono server!" }));
-
-const port = process.env.PORT || 3000;
+app.get("/", (c) => {
+	return c.text("Hello Hono!");
+});
 
 export default {
-	port,
+	port: 1284,
 	fetch: app.fetch,
 };
