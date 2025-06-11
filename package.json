@@ -24,7 +24,10 @@
 		"env:sync": "bun run scripts/copy-env-files.ts",
 		"env:sync:dry-run": "bun run scripts/copy-env-files.ts --dry-run",
 		"env:clean": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\" -print0 | xargs -0 rm -f",
-		"env:clean:dry-run": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\""
+		"env:clean:dry-run": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\"",
+		"docker:up": "./scripts/docker:up.sh",
+		"docker:down": "docker compose down",
+		"docker:reset": "docker compose down -v"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
