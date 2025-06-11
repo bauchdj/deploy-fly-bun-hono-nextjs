@@ -1,0 +1,23 @@
+{
+	"name": "@nimbus/db",
+	"version": "0.1.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"db:push": "bun drizzle-kit push --config=drizzle.config.ts"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/pg": "^8.15.4",
+		"drizzle-kit": "^0.31.1",
+		"tsx": "^4.20.1"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"dotenv": "^16.5.0",
+		"drizzle-orm": "^0.44.2",
+		"pg": "^8.16.0"
+	}
+}
