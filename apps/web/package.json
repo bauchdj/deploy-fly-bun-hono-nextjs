@@ -6,7 +6,9 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"docker:build": "docker build -t nimbus-test-web .",
+		"docker:run": "source .env && docker run --name nimbus-test-web --env-file .env -p $WEB_PORT:$WEB_PORT nimbus-test-web:latest"
 	},
 	"dependencies": {
 		"axios": "^1.9.0",

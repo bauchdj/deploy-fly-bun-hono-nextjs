@@ -6,7 +6,9 @@
 	"scripts": {
 		"dev": "bun run --hot src/index.ts",
 		"build": "bun build src/index.ts --outdir dist --target bun",
-		"start": "bun run dist/index.js"
+		"start": "bun run dist/index.js",
+		"docker:build": "bun run build && docker build -t nimbus-test-server .",
+		"docker:run": "source .env && docker run --name nimbus-test-server --env-file .env -p $SERVER_PORT:$SERVER_PORT nimbus-test-server:latest"
 	},
 	"dependencies": {
 		"hono": "^4.7.11",

@@ -1,32 +1,20 @@
-FROM oven/bun:slim AS builder
+FROM oven/bun:slim AS base
 
+# Stage 1: Build the application
+FROM base AS builder
 WORKDIR /app
-
-COPY package.json next.config.js .
-RUN bun install
-
+COPY package.json ./
+RUN bun install --frozen-lockfile
 COPY . .
-
 RUN bun run build
 
-FROM oven/bun:slim AS runner
-
+# Stage 2: Production server
+FROM base AS runner
 WORKDIR /app
-
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
+ENV NODE_ENV=production
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-
-USER nextjs
+RUN if [ -d "/app/public" ]; then cp -r /app/public ./public; fi # Copy public folder if it exists
 
 EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["bun", "run", "start"]
+CMD ["bun", "server.js"]
