@@ -1,14 +1,16 @@
 "use client";
 
-import { config } from "@nimbus/config";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
+const host = process.env.NEXT_PUBLIC_SERVER_URL;
+const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
+const url = `${host}/${endpoint}`;
 
 export default function Home() {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
-	const url = `${config.env.SERVER_URL}${config.env.ENDPOINT}`;
 
 	useEffect(() => {
 		const fetchMessage = async () => {
