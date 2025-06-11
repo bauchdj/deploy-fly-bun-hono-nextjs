@@ -7,7 +7,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"docker:build": "docker build -t nimbus-test-web .",
+		"docker:build": "bun run build && docker build -t nimbus-test-web .",
 		"docker:run": "source .env && docker run --name nimbus-test-web --env-file .env -p $WEB_PORT:$WEB_PORT nimbus-test-web:latest"
 	},
 	"dependencies": {
