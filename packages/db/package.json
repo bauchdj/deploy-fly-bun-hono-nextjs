@@ -5,6 +5,7 @@
 	"private": true,
 	"exports": {
 		".": "./src/index.ts",
+		"./utils": "./src/utils.ts",
 		"./schema/user": "./src/schema/user.ts"
 	},
 	"scripts": {
@@ -12,9 +13,10 @@
 		"db:generate": "bun --bun run drizzle-kit generate --config=drizzle.config.ts",
 		"db:migrate": "bun --bun run drizzle-kit migrate --config=drizzle.config.ts",
 		"db:push": "bun --bun run drizzle-kit push --config=drizzle.config.ts",
-		"db:up": "docker compose up -d",
-		"db:down": "docker compose down",
-		"db:reset": "docker compose down -v && docker compose up -d"
+		"docker:up": "docker compose up -d",
+		"docker:down": "docker compose down",
+		"docker:remove": "docker compose down -v",
+		"docker:reset": "docker compose down -v && bun run docker:up"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.44.2",

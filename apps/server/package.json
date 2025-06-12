@@ -7,8 +7,12 @@
 		"dev": "bun run --hot src/index.ts",
 		"build": "bun build src/index.ts --outdir dist --target bun",
 		"start": "bun run dist/index.js",
-		"docker:build": "bun run build && docker build -t nimbus-test-server .",
-		"docker:run": "source .env && docker run --name nimbus-test-server --env-file .env -p $SERVER_PORT:$SERVER_PORT nimbus-test-server:latest"
+		"docker:build": "bun run build && docker build -t nimbus-test-server-manual .",
+		"docker:run": "source .env && docker run --name nimbus-test-server-manual --env-file .env -p $SERVER_PORT:$SERVER_PORT nimbus-test-server-manual:latest",
+		"docker:up": "bun run build && docker compose up -d",
+		"docker:down": "docker compose down",
+		"docker:remove": "docker compose down -v",
+		"docker:reset": "docker compose down -v && bun run docker:up"
 	},
 	"dependencies": {
 		"hono": "^4.7.11",

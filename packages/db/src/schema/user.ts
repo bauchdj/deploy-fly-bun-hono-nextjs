@@ -1,3 +1,4 @@
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
 	integer,
 	pgTable,
@@ -6,7 +7,7 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 
-export const user = pgTable(
+export const userTable = pgTable(
 	"user",
 	{
 		id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -23,3 +24,6 @@ export const user = pgTable(
 		uniqueIndex("email_idx").on(table.email),
 	]
 );
+
+export type User = InferSelectModel<typeof userTable>; // return type when queried
+export type NewUser = InferInsertModel<typeof userTable>; // insert type

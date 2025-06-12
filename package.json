@@ -18,16 +18,14 @@
 		"db:generate": "bun run --cwd=packages/db db:generate",
 		"db:migrate": "bun run --cwd=packages/db db:migrate",
 		"db:push": "bun run --cwd=packages/db db:push",
-		"db:reset": "bun run --cwd=packages/db db:reset",
-		"db:up": "bun run --cwd=packages/db db:up",
-		"db:down": "bun run --cwd=packages/db db:down",
 		"env:sync": "bun run scripts/copy-env-files.ts",
 		"env:sync:dry-run": "bun run scripts/copy-env-files.ts --dry-run",
 		"env:clean": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\" -print0 | xargs -0 rm -f",
 		"env:clean:dry-run": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\"",
 		"docker:up": "./scripts/docker:up.sh",
 		"docker:down": "docker compose down",
-		"docker:reset": "docker compose down -v"
+		"docker:remove": "docker compose down -v",
+		"docker:reset": "docker compose down -v && bun run docker:up"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
@@ -36,9 +34,9 @@
 		"concurrently": "^9.1.2",
 		"eslint": "^9",
 		"eslint-config-next": "15.3.3",
-		"eslint-plugin-oxlint": "^1.0.0",
+		"eslint-plugin-oxlint": "^1.1.0",
 		"glob": "^11.0.2",
-		"oxlint": "^1.0.0"
+		"oxlint": "^1.1.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

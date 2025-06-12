@@ -1,0 +1,12 @@
+services:
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: nimbus-test-server-local-compose
+        restart: unless-stopped
+        env_file: .env
+        environment:
+            NODE_ENV: production
+        ports:
+            - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
