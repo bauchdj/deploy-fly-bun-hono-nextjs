@@ -1,5 +1,5 @@
 {
-	"name": "@nimbus/web",
+	"name": "@demo/web",
 	"version": "0.1.0",
 	"type": "module",
 	"private": true,
@@ -7,8 +7,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"docker:build": "bun run build && docker build -t nimbus-test-web-manual .",
-		"docker:run": "source .env && docker run --name nimbus-test-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT nimbus-test-web-manual:latest",
+		"docker:build": "bun run build && docker build -t demo-web-manual .",
+		"docker:run": "source .env && docker run --name demo-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT demo-web-manual:latest",
 		"docker:up": "bun run build && docker compose up -d",
 		"docker:down": "docker compose down",
 		"docker:remove": "docker compose down -v",

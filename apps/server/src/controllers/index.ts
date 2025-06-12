@@ -1,5 +1,5 @@
 import { service } from "@/services";
-import { config } from "@nimbus/config";
+import { config } from "@demo/config";
 import { Hono } from "hono";
 
 const app = new Hono();

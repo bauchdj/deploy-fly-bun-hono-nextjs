@@ -1,5 +1,5 @@
 {
-	"name": "@nimbus/server",
+	"name": "@demo/server",
 	"version": "0.1.0",
 	"type": "module",
 	"private": true,
@@ -7,8 +7,8 @@
 		"dev": "bun run --hot src/index.ts",
 		"build": "bun build src/index.ts --outdir dist --target bun",
 		"start": "bun run dist/index.js",
-		"docker:build": "bun run build && docker build -t nimbus-test-server-manual .",
-		"docker:run": "source .env && docker run --name nimbus-test-server-manual --env-file .env -p $SERVER_PORT:$SERVER_PORT nimbus-test-server-manual:latest",
+		"docker:build": "bun run build && docker build -t demo-server-manual .",
+		"docker:run": "source .env && docker run --name demo-server-manual --env-file .env -p $SERVER_PORT:$SERVER_PORT demo-server-manual:latest",
 		"docker:up": "bun run build && docker compose up -d",
 		"docker:down": "docker compose down",
 		"docker:remove": "docker compose down -v",
@@ -16,8 +16,8 @@
 	},
 	"dependencies": {
 		"hono": "^4.7.11",
-		"@nimbus/db": "workspace:*",
-		"@nimbus/config": "workspace:*"
+		"@demo/db": "workspace:*",
+		"@demo/config": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

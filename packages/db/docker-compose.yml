@@ -1,12 +1,12 @@
 services:
     db:
         image: postgres:16
-        container_name: nimbus-test-db-local-compose
+        container_name: demo-db-local-compose
         restart: unless-stopped
         environment:
             POSTGRES_USER: ${POSTGRES_USER:-postgres}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-            POSTGRES_DB: ${POSTGRES_DB:-nimbus}
+            POSTGRES_DB: ${POSTGRES_DB:-demo}
         ports:
             - "5432:5432"
         volumes:
@@ -19,4 +19,4 @@ services:
 
 volumes:
     postgres-data:
-        name: nimbus-test-db-local-compose-postgres-data
+        name: demo-db-local-compose-postgres-data

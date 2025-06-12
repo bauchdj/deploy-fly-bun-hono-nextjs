@@ -1,6 +1,6 @@
 import controller from "@/controllers";
 import { corsMiddleware } from "@/middleware";
-import { config } from "@nimbus/config";
+import { config } from "@demo/config";
 import { Hono } from "hono";
 
 const app = new Hono();

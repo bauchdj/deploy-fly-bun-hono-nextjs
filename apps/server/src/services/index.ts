@@ -1,6 +1,6 @@
-import { db } from "@nimbus/db";
-import { userTable, type NewUser, type User } from "@nimbus/db/schema/user";
-import { isDbConnected } from "@nimbus/db/utils";
+import { db } from "@demo/db";
+import { userTable, type NewUser, type User } from "@demo/db/schema/user";
+import { isDbConnected } from "@demo/db/utils";
 
 export async function service() {
 	const helloWorld = buildMessage("World");

@@ -1,4 +1,4 @@
-import { config } from "@nimbus/config";
+import { config } from "@demo/config";
 import { cors } from "hono/cors";
 
 export const corsMiddleware = cors({

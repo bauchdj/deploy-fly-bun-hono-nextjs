@@ -1,4 +1,4 @@
-import { config } from "@nimbus/config";
+import { config } from "@demo/config";
 import { defineConfig } from "drizzle-kit";
 
 const drizzleConfig = defineConfig({

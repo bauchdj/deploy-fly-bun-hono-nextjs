@@ -2,13 +2,13 @@ services:
     # Database Service
     db:
         image: postgres:16
-        container_name: nimbus-test-db-root-compose
+        container_name: demo-db-root-compose
         restart: unless-stopped
         env_file: .env
         environment:
             POSTGRES_USER: ${POSTGRES_USER:-postgres}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-            POSTGRES_DB: ${POSTGRES_DB:-nimbus}
+            POSTGRES_DB: ${POSTGRES_DB:-demo}
         ports:
             - "5432:5432"
         volumes:
@@ -19,19 +19,19 @@ services:
             timeout: 5s
             retries: 5
         networks:
-            - nimbus-network
+            - demo-network
 
     # Server Service
     server:
         build:
             context: .
             dockerfile: apps/server/Dockerfile
-        container_name: nimbus-test-server-root-compose
+        container_name: demo-server-root-compose
         restart: unless-stopped
         env_file: .env
         environment:
             NODE_ENV: production
-            DATABASE_URL: postgres://postgres:postgres@db:5432/nimbus
+            DATABASE_URL: postgres://postgres:postgres@db:5432/demo
             DATABASE_HOST: db
         ports:
             - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
@@ -39,14 +39,14 @@ services:
             db:
                 condition: service_healthy
         networks:
-            - nimbus-network
+            - demo-network
 
     # Web Service
     web:
         build:
             context: .
             dockerfile: apps/web/Dockerfile
-        container_name: nimbus-test-web-root-compose
+        container_name: demo-web-root-compose
         restart: unless-stopped
         env_file: .env
         environment:
@@ -56,12 +56,12 @@ services:
         depends_on:
             - server
         networks:
-            - nimbus-network
+            - demo-network
 
 volumes:
     postgres-data:
-        name: nimbus-test-db-root-compose-postgres-data
+        name: demo-db-root-compose-postgres-data
 
 networks:
-    nimbus-network:
+    demo-network:
         driver: bridge
