@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build && rm -rf node_modules",
+		"build": "next build",
 		"start": "next start",
 		"docker:build": "bun run build && docker build -t nimbus-test-web-manual .",
 		"docker:run": "source .env && docker run --name nimbus-test-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT nimbus-test-web-manual:latest",

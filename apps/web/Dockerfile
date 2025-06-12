@@ -3,17 +3,14 @@ FROM oven/bun:slim
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY package.json ./
-# Install production deps (next, react)
-RUN bun install --production
-
-# Copy contents of standalone to /app (.env, .next, server.js)
+# Copy contents of standalone to (app/web{.env, .next, server.js}, node_modules, package.json)
 COPY .next/standalone ./
 # Copy static to /app/.next
-COPY .next/static ./.next/static
+COPY .next/static ./apps/web/.next/static
 # Copy public to /app
-COPY public ./public
+COPY public ./apps/web/public
 
 EXPOSE 3000
 
-CMD ["bun", "server.js"]
+# Based on apps/web workspace path from root package.json
+CMD ["bun", "apps/web/server.js"]
