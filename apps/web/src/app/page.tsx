@@ -1,7 +1,6 @@
 "use client";
 
 import { type HandlerType } from "@demo/server/handlers";
-// import axios from "axios";
 import { hc } from "hono/client";
 import { useEffect, useState } from "react";
 
@@ -10,7 +9,6 @@ const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
 if (!host || !endpoint) {
 	throw new Error("Missing environment variables");
 }
-// const url = `${host}/${endpoint}`;
 
 const client = hc<HandlerType>(host);
 
@@ -23,11 +21,8 @@ export default function Home() {
 		const fetchMessage = async () => {
 			try {
 				const response = await client.hello.$get();
-				// const response = await axios.get(url);
 				if (response.ok) {
-					// if (response.status === 200) {
 					const message = await response.text();
-					// const message = response.data;
 					setMessage(message);
 				} else {
 					console.error(response);
