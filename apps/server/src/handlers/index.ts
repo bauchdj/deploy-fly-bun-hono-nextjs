@@ -15,6 +15,6 @@ const handler = app.get(`/${endpoint}`, async (c) => {
 	return c.text(message);
 });
 
-export type Handler = typeof handler;
+export type HandlerType = typeof handler;
 
 export default app;

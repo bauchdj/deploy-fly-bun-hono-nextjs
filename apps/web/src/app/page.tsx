@@ -1,11 +1,18 @@
 "use client";
 
-import axios from "axios";
+import { type HandlerType } from "@demo/server/handlers";
+// import axios from "axios";
+import { hc } from "hono/client";
 import { useEffect, useState } from "react";
 
 const host = process.env.NEXT_PUBLIC_SERVER_URL;
 const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
-const url = `${host}/${endpoint}`;
+if (!host || !endpoint) {
+	throw new Error("Missing environment variables");
+}
+// const url = `${host}/${endpoint}`;
+
+const client = hc<HandlerType>(host);
 
 export default function Home() {
 	const [message, setMessage] = useState("");
@@ -15,11 +22,20 @@ export default function Home() {
 	useEffect(() => {
 		const fetchMessage = async () => {
 			try {
-				const response = await axios.get(url);
-				setMessage(response.data);
+				const response = await client.hello.$get();
+				// const response = await axios.get(url);
+				if (response.ok) {
+					// if (response.status === 200) {
+					const message = await response.text();
+					// const message = response.data;
+					setMessage(message);
+				} else {
+					console.error(response);
+					handlerOnError();
+				}
 			} catch (err) {
 				console.error(err);
-				setError("Failed to fetch message");
+				handlerOnError();
 			} finally {
 				setLoading(false);
 			}
@@ -27,6 +43,10 @@ export default function Home() {
 
 		fetchMessage();
 	}, []);
+
+	function handlerOnError() {
+		setError("Failed to fetch message");
+	}
 
 	return (
 		<div className="flex items-center justify-center min-h-screen p-4">

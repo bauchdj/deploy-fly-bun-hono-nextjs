@@ -9,7 +9,7 @@ app.use(corsMiddleware);
 
 const route = app.route("/", handlers);
 
-export type AppRoute = typeof route;
+export type AppType = typeof route;
 
 const honoConfig = {
 	port: config.env.SERVER_PORT,
