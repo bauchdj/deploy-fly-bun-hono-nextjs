@@ -1,7 +1,7 @@
-import handlers from "@/handlers";
-import { corsMiddleware } from "@/middleware";
 import { config } from "@demo/config";
 import { Hono } from "hono";
+import handlers from "./handlers";
+import { corsMiddleware } from "./middleware";
 
 const app = new Hono();
 

@@ -1,4 +1,4 @@
-import { service } from "@/services";
+import { service } from "../services";
 import { config } from "@demo/config";
 import { Hono } from "hono";
 
