@@ -1,27 +1,29 @@
 {
-	"name": "@demo/server",
-	"version": "0.1.0",
+	"name": "@deploy-fly-bun-hono-nextjs/server",
+	"version": "0.2.5",
 	"type": "module",
 	"private": true,
 	"exports": {
 		".": "./src/index.ts",
-		"./handlers": "./src/handlers/index.ts"
+		"./handlers": "./src/handlers/index.d.ts"
 	},
 	"scripts": {
 		"dev": "bun run --hot src/index.ts",
 		"build": "bun build src/index.ts --outdir dist --target bun",
 		"start": "bun run dist/index.js",
-		"docker:build": "bun run build && docker build -t demo-server-manual .",
-		"docker:run": "source .env && docker run --name demo-server-manual --env-file .env -p $SERVER_PORT:$SERVER_PORT demo-server-manual:latest",
+		"docker:build": "bun run build && docker build -t deploy-fly-bun-hono-nextjs-server-manual .",
+		"docker:run": "source .env && docker run --name deploy-fly-bun-hono-nextjs-server-manual --env-file .env -p $SERVER_PORT:$SERVER_PORT deploy-fly-bun-hono-nextjs-server-manual:latest",
 		"docker:up": "bun run build && docker compose up -d",
 		"docker:down": "docker compose down",
-		"docker:remove": "docker compose down -v",
-		"docker:reset": "docker compose down -v && bun run docker:up"
+		"docker:remove": "docker compose down --rmi local -v",
+		"docker:reset": "bun run docker:remove && bun run docker:up",
+		"fly:secrets:stage": "fly secrets import --stage < .env",
+		"fly:deploy": "bun run build && bash ../../scripts/fly:deploy.sh server"
 	},
 	"dependencies": {
 		"hono": "^4.7.11",
-		"@demo/db": "workspace:*",
-		"@demo/config": "workspace:*"
+		"@deploy-fly-bun-hono-nextjs/db": "workspace:*",
+		"@deploy-fly-bun-hono-nextjs/config": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

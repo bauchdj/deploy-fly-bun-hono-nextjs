@@ -1,8 +1,8 @@
-#!/usr/bin/env node
 import { glob } from "glob";
 import { access, constants, copyFile, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { getEnvFiles, ROOT_ENV_GLOB_PATTERN } from "./utils/env-files";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,10 +46,7 @@ async function main() {
 
 		// Find all .env* files in root
 		const rootDir = join(__dirname, "..");
-		const envFiles = await glob(".env!(*example)", {
-			cwd: rootDir,
-			absolute: true,
-		});
+		const envFiles = await getEnvFiles(ROOT_ENV_GLOB_PATTERN, rootDir);
 
 		if (envFiles.length === 0) {
 			console.log("No .env* files found in root directory");
@@ -82,9 +79,7 @@ async function main() {
 
 			for (const workspaceDir of workspaceDirs) {
 				console.log(
-					`\n📂 Processing workspace: ${workspaceDir
-						.split("/")
-						.pop()}`
+					`📂 Processing workspace: ${workspaceDir.split("/").pop()}`
 				);
 
 				// Ensure workspace directory exists
@@ -125,7 +120,7 @@ async function main() {
 			}
 		}
 
-		console.log("\n✨ Done!");
+		console.log("✨ Done!");
 	} catch (error) {
 		console.error(
 			"❌ An error occurred:",

@@ -3,7 +3,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: demo-web-local-compose
+        container_name: web-local-compose
         restart: unless-stopped
         env_file: .env
         environment:

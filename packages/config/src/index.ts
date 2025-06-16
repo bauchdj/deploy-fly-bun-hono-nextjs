@@ -1,15 +1,24 @@
+import { databaseEnvVars } from "./database";
+import { serverEnvVars } from "./server";
+import { webEnvVars } from "./web";
+
 // Define required environment variables
-const envVars = [
-	"DATABASE_URL",
-	"POSTGRES_USER",
-	"POSTGRES_PASSWORD",
-	"POSTGRES_DB",
-	"NEXT_PUBLIC_SERVER_URL",
-	"SERVER_PORT",
-	"NEXT_PUBLIC_ENDPOINT",
-	"WEB_URL",
-	"WEB_PORT",
-] as const;
+const envVars = [...databaseEnvVars, ...serverEnvVars, ...webEnvVars] as const;
+
+// Ensure all environment variables are unique
+const uniqueEnvVars = new Set(envVars);
+if (uniqueEnvVars.size !== envVars.length) {
+	console.error(
+		"Duplicate environment variables found. Check const arrays of env variables."
+	);
+	process.exit(1);
+}
+
+if (Bun.env.NODE_ENV === "development") {
+	const { validateEnvFile } = await import("./utils/validate-env-file");
+	await validateEnvFile(envVars);
+	console.log("Environment variables validated successfully");
+}
 
 type EnvKey = (typeof envVars)[number];
 type EnvVars = {

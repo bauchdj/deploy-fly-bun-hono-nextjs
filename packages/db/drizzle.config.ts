@@ -1,4 +1,4 @@
-import { config } from "@demo/config";
+import { config } from "@deploy-fly-bun-hono-nextjs/config";
 import { defineConfig } from "drizzle-kit";
 
 const drizzleConfig = defineConfig({

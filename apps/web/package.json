@@ -1,22 +1,25 @@
 {
-	"name": "@demo/web",
-	"version": "0.1.0",
+	"name": "@deploy-fly-bun-hono-nextjs/web",
+	"version": "0.2.5",
 	"type": "module",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
-		"docker:build": "bun run build && docker build -t demo-web-manual .",
-		"docker:run": "source .env && docker run --name demo-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT demo-web-manual:latest",
+		"start": "bash scripts/handle-nextjs-standalone-build.sh && bun run .next/build-start-folder/apps/web/server.js",
+		"docker:build": "bun run build && docker build -t deploy-fly-bun-hono-nextjs-web-manual .",
+		"docker:run": "source .env && docker run --name deploy-fly-bun-hono-nextjs-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT deploy-fly-bun-hono-nextjs-web-manual:latest",
 		"docker:up": "bun run build && docker compose up -d",
 		"docker:down": "docker compose down",
-		"docker:remove": "docker compose down -v",
-		"docker:reset": "docker compose down -v && bun run docker:up"
+		"docker:remove": "docker compose down --rmi local -v",
+		"docker:reset": "bun run docker:remove && bun run docker:up",
+		"fly:secrets:stage": "fly secrets import --stage < .env",
+		"fly:deploy": "bun run build && bash ../../scripts/fly:deploy.sh web"
 	},
 	"dependencies": {
-		"@demo/server": "workspace:*",
+		"@deploy-fly-bun-hono-nextjs/server": "workspace:*",
 		"hono": "^4.7.11",
+		"lucide-react": "^0.515.0",
 		"next": "15.3.3",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"

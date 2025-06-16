@@ -1,6 +1,10 @@
-import { db } from "@demo/db";
-import { userTable, type NewUser, type User } from "@demo/db/schema/user";
-import { isDbConnected } from "@demo/db/utils";
+import { db } from "@deploy-fly-bun-hono-nextjs/db";
+import {
+	userTable,
+	type NewUser,
+	type User,
+} from "@deploy-fly-bun-hono-nextjs/db/schema/user";
+import { isDbConnected } from "@deploy-fly-bun-hono-nextjs/db/utils";
 
 export async function service() {
 	const helloWorld = buildMessage("World");
@@ -8,8 +12,7 @@ export async function service() {
 		return helloWorld;
 	}
 
-	const result: User[] = await db.select().from(userTable).limit(1);
-	const user: User | undefined = result[0];
+	const user: User | undefined = await db.query.userTable.findFirst();
 
 	if (user) {
 		return buildMessage(user.name);

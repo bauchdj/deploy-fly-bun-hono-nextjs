@@ -7,10 +7,16 @@
  * 2. Bumping version
  * 3. Creating a git tag
  * 4. Pushing to remote
+ *
+ * Usage:
+ *   bun run scripts/release.ts [major|minor|patch] [--input <path> | -i <path>]
+ *
+ * Options:
+ *   -i, --input  Path to package.json (default: ./package.json)
  */
 
 import { execSync } from "child_process";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 
 type VersionType = "major" | "minor" | "patch";
@@ -40,13 +46,50 @@ function isWorkingDirectoryClean(): boolean {
 }
 
 /**
- * Gets the current version from package.json
- * @returns Current version
+ * Parse command line arguments
+ * @returns Object containing version type and package.json path
  */
-function getCurrentVersion(): string {
-	const packageJsonPath = resolve(process.cwd(), "package.json");
-	const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
-	return packageJson.version;
+function parseArgs() {
+	const args = process.argv.slice(2);
+	const result: { versionType?: VersionType; packageJsonPath: string } = {
+		packageJsonPath: resolve(process.cwd(), "package.json"),
+	};
+
+	for (let i = 0; i < args.length; i++) {
+		const arg = args[i];
+		if (arg === "-i" || arg === "--input") {
+			result.packageJsonPath = resolve(process.cwd(), args[++i]!);
+		} else if (["major", "minor", "patch"].includes(arg!)) {
+			result.versionType = arg as VersionType;
+		}
+	}
+
+	return result;
+}
+
+/**
+ * Gets the current version from package.json
+ * @param packageJsonPath - Path to package.json
+ * @returns Current version
+ * @throws If package.json doesn't exist or is invalid
+ */
+function getCurrentVersion(packageJsonPath: string): string {
+	if (!existsSync(packageJsonPath)) {
+		throw new Error(`package.json not found at: ${packageJsonPath}`);
+	}
+
+	try {
+		const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+		if (!packageJson.version) {
+			throw new Error("package.json is missing version field");
+		}
+		return packageJson.version;
+	} catch (error) {
+		if (error instanceof Error) {
+			throw new Error(`Failed to parse package.json: ${error.message}`);
+		}
+		throw new Error("Failed to parse package.json: Unknown error");
+	}
 }
 
 /**
@@ -64,10 +107,13 @@ function runTests(): void {
  * @param versionType - Type of version bump
  * @returns New version
  */
-function bumpVersion(versionType: VersionType): string {
+function bumpVersion(
+	versionType: VersionType,
+	packageJsonPath: string
+): string {
 	console.log(`Bumping ${versionType} version...`);
 	runCommand(`bun run scripts/bump-version.ts ${versionType}`);
-	const newVersion = getCurrentVersion();
+	const newVersion = getCurrentVersion(packageJsonPath);
 	console.log(`✅ Version bumped to ${newVersion}`);
 	return newVersion;
 }
@@ -97,41 +143,58 @@ function pushToRemote(): void {
 /**
  * Main release function
  * @param versionType - Type of version bump
+ * @param packageJsonPath - Path to package.json
  */
-function release(versionType: VersionType): void {
-	console.log("Starting release process...");
+async function release(versionType: VersionType, packageJsonPath: string) {
+	try {
+		// Verify package.json exists and is readable
+		getCurrentVersion(packageJsonPath);
+		console.log("Starting release process...");
 
-	// Check if working directory is clean
-	if (!isWorkingDirectoryClean()) {
-		console.error(
-			"Working directory is not clean. Please commit or stash your changes."
-		);
+		// Check if working directory is clean
+		if (!isWorkingDirectoryClean()) {
+			console.error(
+				"Working directory is not clean. Please commit or stash your changes."
+			);
+			process.exit(1);
+		}
+
+		// Run tests
+		runTests();
+
+		// Bump version
+		const newVersion = bumpVersion(versionType, packageJsonPath);
+
+		// Create git tag
+		createGitTag(newVersion);
+
+		// Push to remote
+		pushToRemote();
+
+		console.log(`\n🎉 Successfully released v${newVersion}`);
+		console.log("The CI/CD pipeline will now handle the deployment.");
+	} catch (error) {
+		console.error("Release failed:", error);
 		process.exit(1);
 	}
-
-	// Run tests
-	runTests();
-
-	// Bump version
-	const newVersion = bumpVersion(versionType);
-
-	// Create git tag
-	createGitTag(newVersion);
-
-	// Push to remote
-	pushToRemote();
-
-	console.log(`\n🎉 Successfully released v${newVersion}`);
-	console.log("The CI/CD pipeline will now handle the deployment.");
 }
 
-// Get the version type from command line arguments
-const versionType = process.argv[2] as VersionType;
-if (!versionType || !["major", "minor", "patch"].includes(versionType)) {
+// Parse command line arguments
+const { versionType, packageJsonPath } = parseArgs();
+
+if (!versionType) {
+	console.error('Please specify version type: "major", "minor", or "patch"');
+	console.error("\nUsage:");
 	console.error(
-		"Please specify a valid version type: major, minor, or patch"
+		"  bun run scripts/release.ts [major|minor|patch] [--input <path> | -i <path>]"
+	);
+	console.error("\nOptions:");
+	console.error(
+		"  -i, --input  Path to package.json (default: ./package.json)"
 	);
 	process.exit(1);
 }
 
-release(versionType);
+console.log(`Using package.json at: ${packageJsonPath}`);
+
+release(versionType, packageJsonPath);

@@ -1,6 +1,6 @@
 {
-	"name": "demo",
-	"version": "0.1.0",
+	"name": "deploy-fly-bun-hono-nextjs",
+	"version": "0.2.5",
 	"type": "module",
 	"private": true,
 	"scripts": {
@@ -20,13 +20,17 @@
 		"db:push": "bun run --cwd=packages/db db:push",
 		"env:sync": "bun run scripts/copy-env-files.ts",
 		"env:sync:dry-run": "bun run scripts/copy-env-files.ts --dry-run",
-		"env:clean": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\" -print0 | xargs -0 rm -f",
-		"env:clean:dry-run": "find . -mindepth 2 -type f -name \".env*\" ! -name \"*.example\"",
+		"env:clean": "bun run scripts/delete-child-env-files.ts",
+		"env:clean:dry-run": "bun run scripts/delete-child-env-files.ts --dry-run",
+		"env:clean-sync": "bun run env:clean && bun run env:sync",
 		"docker:build": "\"./scripts/docker:{up,build}.sh\" build",
 		"docker:up": "\"./scripts/docker:{up,build}.sh\" up",
 		"docker:down": "docker compose down",
-		"docker:remove": "docker compose down -v",
-		"docker:reset": "docker compose down -v && bun run docker:up"
+		"docker:remove": "docker compose down --rmi local -v",
+		"docker:reset": "bun run docker:remove && bun run docker:up",
+		"bump-all-versions": "bash scripts/bump-all-versions.sh",
+		"fly:secrets:stage": "bun run env:clean-sync && bun run --cwd=apps/server fly:secrets:stage && bun run --cwd=apps/web fly:secrets:stage",
+		"fly:deploy": "bun run bump-all-versions patch && bun run fly:secrets:stage && bun run --cwd=apps/server fly:deploy && bun run --cwd=apps/web fly:deploy"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
@@ -36,7 +40,7 @@
 		"eslint": "^9",
 		"eslint-config-next": "15.3.3",
 		"eslint-plugin-oxlint": "^1.1.0",
-		"glob": "^11.0.2",
+		"glob": "^11.0.3",
 		"oxlint": "^1.1.0"
 	},
 	"peerDependencies": {

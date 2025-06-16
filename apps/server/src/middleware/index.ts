@@ -1,4 +1,4 @@
-import { config } from "@demo/config";
+import { config } from "@deploy-fly-bun-hono-nextjs/config";
 import { cors } from "hono/cors";
 
 export const corsMiddleware = cors({

@@ -1,6 +1,6 @@
 "use client";
 
-import { type HandlerType } from "@demo/server/handlers";
+import { type HelloHandler } from "@deploy-fly-bun-hono-nextjs/server/handlers";
 import { hc } from "hono/client";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ if (!host || !endpoint) {
 	throw new Error("Missing environment variables");
 }
 
-const client = hc<HandlerType>(host);
+const client = hc<HelloHandler>(host);
 
 export default function Home() {
 	const [message, setMessage] = useState("");

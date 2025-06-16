@@ -1,0 +1,8 @@
+export const databaseEnvVars = [
+	"DATABASE_URL",
+	"DATABASE_HOST",
+	"POSTGRES_PORT",
+	"POSTGRES_USER",
+	"POSTGRES_PASSWORD",
+	"POSTGRES_DB",
+] as const;

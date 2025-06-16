@@ -1,6 +1,6 @@
 {
-	"name": "@demo/db",
-	"version": "0.1.0",
+	"name": "@deploy-fly-bun-hono-nextjs/db",
+	"version": "0.2.5",
 	"type": "module",
 	"private": true,
 	"exports": {
@@ -15,8 +15,8 @@
 		"db:push": "bun --bun run drizzle-kit push --config=drizzle.config.ts",
 		"docker:up": "docker compose up -d",
 		"docker:down": "docker compose down",
-		"docker:remove": "docker compose down -v",
-		"docker:reset": "docker compose down -v && bun run docker:up"
+		"docker:remove": "docker compose down --rmi local -v",
+		"docker:reset": "bun run docker:remove && bun run docker:up"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.44.2",

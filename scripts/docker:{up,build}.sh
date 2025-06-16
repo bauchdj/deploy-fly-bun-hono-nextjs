@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+# Color Constants
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[0;33m'
+readonly MAGENTA='\033[0;35m'
+readonly CYAN='\033[0;36m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m'
 
 # Directories to clean up
 NEXTJS_DIRS=("dist" ".next" "public")
 
 build_apps() {
     # Build apps
-    echo -e "${BLUE}Building apps${NC}"
+    echo -e "${CYAN}Building apps${NC}"
     bun run build
     echo ""
 }
@@ -22,7 +22,7 @@ build_apps() {
 # Cleanup Next.js directories
 copy_build_artifacts() {
     # Copy build artifacts to the root directory for apps/{server,web}/Dockerfile in docker-compose.yml
-    echo -e "${BLUE}Copying build artifacts to the root directory${NC}"
+    echo -e "${CYAN}Copying build artifacts to the root directory${NC}"
     for dir in "${NEXTJS_DIRS[@]}"; do
         echo "Copying $dir"
         case $dir in
@@ -51,7 +51,7 @@ cleanup() {
 }
 
 wait_for_db() { 
-    echo -e "${BLUE}Waiting for database to be ready${NC}"
+    echo -e "${CYAN}Waiting for database to be ready${NC}"
     while ! docker compose exec db psql -U postgres -c "SELECT 1" > /dev/null 2>&1; do
         echo "Waiting for database to be ready"
         sleep 2
@@ -62,19 +62,19 @@ wait_for_db() {
 migrate_db() {
     wait_for_db
 
-    echo -e "${BLUE}Pushing database${NC}"
+    echo -e "${CYAN}Pushing database${NC}"
     bun run db:push
     echo ""
 }
 
 docker_up() {
-    echo -e "${BLUE}Starting services${NC}"
+    echo -e "${CYAN}Starting services${NC}"
     docker compose up -d
     echo ""
 }
 
 docker_build() {
-    echo -e "${BLUE}Building services${NC}"
+    echo -e "${CYAN}Building services${NC}"
     docker compose build
     echo ""
 }

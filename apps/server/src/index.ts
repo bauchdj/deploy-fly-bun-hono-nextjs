@@ -1,15 +1,17 @@
-import { config } from "@demo/config";
+import { config } from "@deploy-fly-bun-hono-nextjs/config";
 import { Hono } from "hono";
-import handlers from "./handlers";
+import health from "./handlers/health";
+import hello from "./handlers/hello";
+import root from "./handlers/root";
 import { corsMiddleware } from "./middleware";
 
 const app = new Hono();
 
 app.use(corsMiddleware);
 
-const route = app.route("/", handlers);
-
-export type AppType = typeof route;
+app.route("/", root);
+app.route("/", health);
+app.route("/", hello);
 
 const honoConfig = {
 	port: config.env.SERVER_PORT,
