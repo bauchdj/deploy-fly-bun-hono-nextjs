@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for nimbus-api on 2025-06-16T13:02:38-04:00
+# fly.toml app configuration file generated for bun-hono-api on 2025-06-16T14:40:51-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'nimbus-api'
-primary_region = 'iad'
+app = 'bun-hono-api'
+primary_region = 'ewr'
 
 [build]
 

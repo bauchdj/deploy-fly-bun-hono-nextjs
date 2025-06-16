@@ -14,11 +14,12 @@ if (uniqueEnvVars.size !== envVars.length) {
 	process.exit(1);
 }
 
-if (Bun.env.NODE_ENV === "development") {
-	const { validateEnvFile } = await import("./utils/validate-env-file");
-	await validateEnvFile(envVars);
-	console.log("Environment variables validated successfully");
-}
+// Breaks drizzle cli right now
+// if (Bun.env.NODE_ENV === "development") {
+// 	const { validateEnvFile } = await import("./utils/validate-env-file");
+// 	await validateEnvFile(envVars);
+// 	console.log("Environment variables validated successfully");
+// }
 
 type EnvKey = (typeof envVars)[number];
 type EnvVars = {

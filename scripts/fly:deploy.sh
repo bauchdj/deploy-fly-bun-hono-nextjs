@@ -17,6 +17,13 @@ error_exit() {
     exit 1
 }
 
+linkify() {
+  local url="$1"
+  local label="${2:-$1}"
+  printf '\e]8;;%s\a%s\e]8;;\a\n' "$url" "$label"
+}
+
+
 print_vars() {
     echo -e "${CYAN}Deployment Variables:${NC}"
     echo "APP_DIR_PATH: $APP_DIR_PATH"
@@ -57,13 +64,15 @@ remove_old_images() {
 ensure_fly_config() {
     if ! fly apps list | grep -q "$APP_NAME"; then
         echo -e "${RED}App $APP_NAME does not exist on Fly.${NC}"
-        echo "Recommended: fly launch --no-deploy --name $APP_NAME --internal-port $APP_PORT"
+        echo "Docs: see uasge by running: fly launch --help or visit $(linkify "https://fly.io/docs/launch/create/")"
+        echo "Recommended: fly launch --no-deploy --name $APP_NAME --internal-port $APP_PORT --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256"
         echo -e "${YELLOW}Note: Don't generate .dockerignore from .gitignore—it may break Docker builds.${NC}"
         exit 1
     fi
 
     if [ ! -f "fly.toml" ]; then
         echo -e "${YELLOW}fly.toml missing. Attempting to download config...${NC}"
+        echo "Docs: visit $(linkify "https://fly.io/docs/flyctl/config-save/")"
         fly config save --app "$APP_NAME"
         echo ""
     fi
@@ -125,15 +134,15 @@ docker compose -f "$DEPLOY_DOCKER_COMPOSE_FILE_PATH" build
 echo ""
 
 echo -e "${CYAN}Pushing Docker image${NC}"
+# https://docs.docker.com/engine/reference/commandline/push/
+# https://fly.io/docs/blueprints/using-the-fly-docker-registry/
 docker push "${DOCKER_IMAGE_NAME}:${TAG}"
 echo ""
 
 echo -e "${CYAN}Deploying to Fly${NC}"
+# https://fly.io/docs/launch/deploy/
+# https://fly.io/docs/apps/app-availability/#redundancy-by-default-on-first-deploy
 fly deploy --ha=false --app "$APP_NAME" --image "${DOCKER_IMAGE_NAME}:${TAG}"
-echo ""
-
-echo -e "${CYAN}Scaling to 1${NC}"
-fly scale count 1
 echo ""
 
 echo -e "${GREEN}Deployment complete!${NC}"

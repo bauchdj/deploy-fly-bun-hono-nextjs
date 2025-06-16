@@ -24,8 +24,8 @@ services:
     # Server Service
     server:
         build:
-            context: .
-            dockerfile: apps/server/Dockerfile
+            context: apps/server
+            dockerfile: Dockerfile
         container_name: server-root-compose
         restart: unless-stopped
         env_file: .env
@@ -44,8 +44,8 @@ services:
     # Web Service
     web:
         build:
-            context: .
-            dockerfile: apps/web/Dockerfile
+            context: apps/web
+            dockerfile: Dockerfile
         container_name: web-root-compose
         restart: unless-stopped
         env_file: .env

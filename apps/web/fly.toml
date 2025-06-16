@@ -1,10 +1,12 @@
-# fly.toml app configuration file generated for nimbus-web on 2025-06-13T10:10:20-04:00
+# fly.toml app configuration file generated for bun-nextjs-web on 2025-06-16T14:41:50-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'nimbus-web'
-primary_region = 'iad'
+app = 'bun-nextjs-web'
+primary_region = 'ewr'
+
+[build]
 
 [http_service]
   internal_port = 3000
