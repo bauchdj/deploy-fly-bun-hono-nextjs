@@ -4,13 +4,20 @@ import { type HelloHandler } from "@deploy-fly-bun-hono-nextjs/server/handlers";
 import { hc } from "hono/client";
 import { useEffect, useState } from "react";
 
-const host = process.env.NEXT_PUBLIC_SERVER_URL;
-const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
-if (!host || !endpoint) {
+const URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const ENDPOINT = process.env.NEXT_PUBLIC_ENDPOINT;
+if (!URL || !ENDPOINT) {
 	throw new Error("Missing environment variables");
 }
 
-const client = hc<HelloHandler>(host);
+let url = "";
+if (URL.includes("https://")) {
+	url = URL;
+} else {
+	url = `http://${URL}`;
+}
+
+const client = hc<HelloHandler>(url);
 
 export default function Home() {
 	const [message, setMessage] = useState("");

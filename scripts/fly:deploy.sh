@@ -66,6 +66,7 @@ ensure_fly_config() {
         echo -e "${RED}App $APP_NAME does not exist on Fly.${NC}"
         echo "Docs: see uasge by running: fly launch --help or visit $(linkify "https://fly.io/docs/launch/create/")"
         echo "Recommended: fly launch --no-deploy --name $APP_NAME --internal-port $APP_PORT --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256"
+        echo -e "${YELLOW}Note: Copy the existing fly.toml configuration then say yes to modifying it.${NC}"
         echo -e "${YELLOW}Note: Don't generate .dockerignore from .gitignore—it may break Docker builds.${NC}"
         exit 1
     fi

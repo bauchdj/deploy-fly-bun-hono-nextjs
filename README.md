@@ -114,31 +114,227 @@ Make sure you have the Fly.io CLI installed and are logged in:
 fly auth login
 ```
 
-### Deploy the Server and Web App
+## ✈️ First-Time Deployment to Fly.io
+
+Follow these steps to deploy your application for the first time:
+
+### Prerequisites
+
+-   [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) installed and authenticated
+-   [Docker](https://www.docker.com/) running locally
+-   Root `.env` file configured with your environment variables
+
+### Step 1: Run the Server Deployment Script
+
+Navigate to server directory
 
 ```bash
-bun run fly:deploy
-```
-
-### Deploy the Server
-
-```bash
-# Navigate to server directory
 cd apps/server
-
-# Deploy to Fly.io
-bun run fly:deploy
 ```
 
-### Deploy the Web App
+Run the deploy script
 
 ```bash
-# Navigate to web directory
-cd apps/web
-
-# Deploy to Fly.io
 bun run fly:deploy
 ```
+
+### Step 2: Configure Your Server and Postgres Fly.io Apps
+
+1. **Create a new Fly.io app**
+
+    - **IMPORTANT**: Run the recommended command that the deploy script generated for you
+        - Example: `fly launch --no-deploy --name bun-hono-api --internal-port 8080 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
+    - Type `y` to use the existing configuration
+    - Type `y` again to configure it. This will open a browser tab.
+
+2. **Configure Postgres in Browser**
+
+    - Select a Postgres option
+    - Give it a name. It has to be unique.
+        - Example: `bun-hono-api-pg`
+    - For development, you may want to scale down resources
+    - Adjust CPU, memory, and other settings as needed
+
+3. **Docker Configuration**
+    - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`. It will ask after the postgres app finishes.
+
+### Step 3: Save Database Connection Info
+
+After the Postgres app is created, **carefully save the connection information** displayed in the terminal. You'll need these details for your `.env` file.
+
+Example connection info:
+
+```console
+Postgres cluster bun-hono-api-pg created
+  Username:    postgres
+  Password:    DrHjcNSjz1c7wN7
+  Hostname:    bun-hono-api-pg.internal
+  Flycast:     fdaa:a:1733:0:1::6
+  Proxy port:  5432
+  Postgres port:  5433
+  Connection string: postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-pg.flycast:5432
+```
+
+### Step 4: Verify Deployment of Server and Postgres
+
+Once the Postgres deployment completes, your postgres app will be available at the name you configured. You can see it and your server app by running `fly apps list`.
+
+Example output:
+
+```console
+% fly apps list
+NAME           	OWNER   	STATUS  	LATEST DEPLOY
+bun-hono-api   	personal	pending
+bun-hono-api-pg	personal	deployed
+```
+
+### Step 6: Create / Update .env file
+
+Navigate to root
+
+```bash
+cd ../../
+```
+
+Create and edit .env file
+
+```bash
+cp .env.example .env
+```
+
+**IMPORTANT**: Update the database variables based on the info it gave you. Change the `DATABASE_URL` temporarily so that the `<postgres-app-name>.flycast` is `localhost`.
+
+Example database env variables:
+
+```env
+DATABASE_URL=postgres://postgres:DrHjcNSjz1c7wN7@localhost:5432
+DATABASE_HOST=bun-hono-api-pg.internal
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=DrHjcNSjz1c7wN7
+POSTGRES_DB=bun-hono-api
+```
+
+Then copy .env file to child directories
+
+```bash
+bun run env:sync
+```
+
+### Step 7: Proxy the Database on Fly.io and Run Migrations
+
+Open a new terminal or tab and proxy the database on Fly.io
+
+```bash
+fly proxy 5432 -a <postgres-app-name>
+```
+
+Run migrations from root directory
+
+```bash
+bun run db:push
+```
+
+### Step 8: Revert .env file for final deployment
+
+Edit .env file. Revert the `DATABASE_URL` so the host is `<postgres-app-name>.flycast` again.
+
+Example database env variables:
+
+```env
+DATABASE_URL=postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-pg.flycast:5432
+DATABASE_HOST=bun-hono-api-pg.internal
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=DrHjcNSjz1c7wN7
+POSTGRES_DB=bun-hono-api
+```
+
+Then copy .env file to child directories
+
+```bash
+bun run env:sync
+```
+
+### Step 9: Run the Web Deployment Script
+
+Navigate to web directory
+
+```bash
+cd apps/web
+```
+
+Run the deploy script
+
+```bash
+bun run fly:deploy
+```
+
+### Step 10: Configure Your Web Fly.io App
+
+1. **Create a new Fly.io app**
+
+    - **IMPORTANT**: Run the recommended command that the deploy script generated for you
+        - Example: `fly launch --no-deploy --name bun-nextjs-web --internal-port 3000 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
+    - Type `y` to use the existing configuration
+    - Type `y` again to configure it. This will open a browser tab.
+
+2. **Docker Configuration**
+    - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`
+
+### Step 11: Verify App Creation
+
+Now your postgres, server, and web app will be available on Fly.io at the name you configured. You can see them by running `fly apps list`.
+
+Example output:
+
+```console
+% fly apps list
+NAME           	OWNER   	STATUS  	LATEST DEPLOY
+bun-hono-api   	personal	pending
+bun-hono-api-pg	personal	deployed
+bun-nextjs-web 	personal	pending
+```
+
+### Step 12: Deploy Server and Web apps
+
+Navigate to root
+
+```bash
+cd ../../
+```
+
+```bash
+bun run fly:deploy
+```
+
+This does the following:
+
+-   First it bumps all the `versions` by 0.0.1+ by `default`
+-   Then it will delete all `.env` files in child directories and copy the root `.env` files to the child directories.
+-   Then it will update the `secrets` and `stage` them on fly based on the env file.
+-   Then it will `build` and `deploy` the **server** app
+-   Then it will `build` and `deploy` the **web** app
+
+### Step 15: Verify Deployment and Celebrate! 🎉
+
+List your apps
+
+```bash
+fly apps list
+```
+
+Example output:
+
+```console
+% fly apps list
+NAME           	OWNER   	STATUS   	LATEST DEPLOY
+bun-hono-api   	personal	deployed 	58s ago
+bun-hono-api-pg	personal	deployed
+bun-nextjs-web 	personal	suspended
+```
+
+If everything was successful, you should be able to navigate to `<web-app-name>.fly.dev`, for ex. [bun-nextjs-web.fly.dev](https://bun-nextjs-web.fly.dev), and see `"Hello Hono!"`
 
 ## 🔄 Environment Variables
 
