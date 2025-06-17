@@ -7,6 +7,9 @@ APP_ROOT=".next/build-start-folder"
 # Copy contents of standalone to (app/web{.env, .next, server.js}, node_modules, package.json)
 cp -r .next/standalone/* $APP_ROOT
 
+# Remove .env from .next/apps/web/.env
+rm .next/apps/web/.env
+
 # Copy static to /app/.next
 mkdir -p $APP_ROOT/apps/web/.next
 cp -r .next/static $APP_ROOT/apps/web/.next/.

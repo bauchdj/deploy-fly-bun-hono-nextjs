@@ -11,7 +11,7 @@ if (!URL || !ENDPOINT) {
 }
 
 let url = "";
-if (URL.includes("https://")) {
+if (URL.includes("https://") || URL.includes("http://")) {
 	url = URL;
 } else {
 	url = `http://${URL}`;

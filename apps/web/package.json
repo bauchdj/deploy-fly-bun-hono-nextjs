@@ -5,8 +5,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
-		"start": "bash scripts/handle-nextjs-standalone-build.sh && bun run .next/build-start-folder/apps/web/server.js",
+		"build": "next build && bash scripts/handle-nextjs-standalone-build.sh",
+		"start": "bun run .next/build-start-folder/apps/web/server.js",
 		"docker:build": "bun run build && docker build -t deploy-fly-bun-hono-nextjs-web-manual .",
 		"docker:run": "source .env && docker run --name deploy-fly-bun-hono-nextjs-web-manual --env-file .env -p $WEB_PORT:$WEB_PORT deploy-fly-bun-hono-nextjs-web-manual:latest",
 		"docker:up": "bun run build && docker compose up -d",
