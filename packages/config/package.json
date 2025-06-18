@@ -9,6 +9,7 @@
 		"build": "bun build src/index.ts --outdir dist --target bun"
 	},
 	"devDependencies": {
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
 		"@types/bun": "latest"
 	}
 }

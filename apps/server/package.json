@@ -26,6 +26,7 @@
 		"@deploy-fly-bun-hono-nextjs/config": "workspace:*"
 	},
 	"devDependencies": {
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
 		"@types/bun": "latest"
 	}
 }

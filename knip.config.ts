@@ -4,19 +4,21 @@ const localAndScripts = ["*.{ts,js}", "scripts/**/*.{ts,js}"];
 const indexEntry = "src/index.{ts,js}";
 const project = "**/*.{ts,js}";
 const ignoreBinaries = ["fly"];
+const ignoreTsconfigDependencies = ["@deploy-fly-bun-hono-nextjs/tsconfig"];
 
 const config: KnipConfig = {
 	workspaces: {
 		".": {
 			entry: localAndScripts,
 			project: localAndScripts,
-			ignoreDependencies: ["prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+			ignoreDependencies: ignoreTsconfigDependencies,
 		},
 
 		"apps/server": {
 			entry: indexEntry,
 			project,
 			ignoreBinaries,
+			ignoreDependencies: ignoreTsconfigDependencies,
 		},
 
 		// https://knip.dev/reference/plugins/next#_top
@@ -25,10 +27,17 @@ const config: KnipConfig = {
 			ignoreDependencies: ["tailwindcss", "eslint", "eslint-config-next", "postcss"],
 		},
 
-		"packages/*": {
-			entry: indexEntry,
-			project,
+		"packages/config": {
 			ignore: ["src/utils/*"],
+			ignoreDependencies: ignoreTsconfigDependencies,
+		},
+
+		"packages/db": {
+			ignoreDependencies: ignoreTsconfigDependencies,
+		},
+
+		"packages/tsconfig": {
+			entry: "base.json",
 		},
 	},
 };

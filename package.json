@@ -37,6 +37,7 @@
 	},
 	"devDependencies": {
 		"@deploy-fly-bun-hono-nextjs/eslint": "workspace:*",
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
 		"@types/bun": "latest",
 		"concurrently": "^9.1.2",
 		"eslint": "^9.29.0",

@@ -24,6 +24,7 @@
 		"pg": "^8.16.0"
 	},
 	"devDependencies": {
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
 		"@types/bun": "latest",
 		"@types/pg": "^8.15.4",
 		"drizzle-kit": "^0.31.1"

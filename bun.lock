@@ -5,6 +5,7 @@
       "name": "deploy-fly-bun-hono-nextjs",
       "devDependencies": {
         "@deploy-fly-bun-hono-nextjs/eslint": "workspace:*",
+        "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@types/bun": "latest",
         "concurrently": "^9.1.2",
         "eslint": "^9.29.0",
@@ -21,19 +22,20 @@
     },
     "apps/server": {
       "name": "@deploy-fly-bun-hono-nextjs/server",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/config": "workspace:*",
         "@deploy-fly-bun-hono-nextjs/db": "workspace:*",
         "hono": "^4.7.11",
       },
       "devDependencies": {
+        "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@types/bun": "latest",
       },
     },
     "apps/web": {
       "name": "@deploy-fly-bun-hono-nextjs/web",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/server": "workspace:*",
         "hono": "^4.8.0",
@@ -56,20 +58,22 @@
     },
     "packages/config": {
       "name": "@deploy-fly-bun-hono-nextjs/config",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "devDependencies": {
+        "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@types/bun": "latest",
       },
     },
     "packages/db": {
       "name": "@deploy-fly-bun-hono-nextjs/db",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/config": "workspace:*",
         "drizzle-orm": "^0.44.2",
         "pg": "^8.16.0",
       },
       "devDependencies": {
+        "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@types/bun": "latest",
         "@types/pg": "^8.15.4",
         "drizzle-kit": "^0.31.1",
@@ -80,7 +84,7 @@
     },
     "packages/eslint": {
       "name": "@deploy-fly-bun-hono-nextjs/eslint",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "dependencies": {
         "@eslint/js": "^9.29.0",
         "eslint-plugin-oxlint": "^1.1.0",
@@ -89,6 +93,9 @@
         "eslint-plugin-unused-imports": "^4.1.4",
         "typescript-eslint": "^8.34.1",
       },
+    },
+    "packages/tsconfig": {
+      "name": "@deploy-fly-bun-hono-nextjs/tsconfig",
     },
   },
   "packages": {
@@ -105,6 +112,8 @@
     "@deploy-fly-bun-hono-nextjs/eslint": ["@deploy-fly-bun-hono-nextjs/eslint@workspace:packages/eslint"],
 
     "@deploy-fly-bun-hono-nextjs/server": ["@deploy-fly-bun-hono-nextjs/server@workspace:apps/server"],
+
+    "@deploy-fly-bun-hono-nextjs/tsconfig": ["@deploy-fly-bun-hono-nextjs/tsconfig@workspace:packages/tsconfig"],
 
     "@deploy-fly-bun-hono-nextjs/web": ["@deploy-fly-bun-hono-nextjs/web@workspace:apps/web"],
 
