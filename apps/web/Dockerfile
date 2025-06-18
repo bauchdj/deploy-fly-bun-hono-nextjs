@@ -6,8 +6,8 @@ ENV NODE_ENV=production
 # Copy contents of standalone to (app/web{.env, .next, server.js}, node_modules, package.json)
 COPY .next/standalone ./
 
-# Remove .env from .next/apps/web/.env if it exists
-RUN if [ -f .next/apps/web/.env ]; then rm .next/apps/web/.env; fi
+# Remove .env from /app/apps/web/.env if it exists
+RUN rm /app/apps/web/.env
 
 # Copy static to /app/.next
 COPY .next/static ./apps/web/.next/static
