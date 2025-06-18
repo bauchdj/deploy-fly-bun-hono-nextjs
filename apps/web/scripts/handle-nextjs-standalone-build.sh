@@ -8,7 +8,7 @@ APP_ROOT=".next/build-start-folder"
 cp -r .next/standalone/* $APP_ROOT
 
 # Remove .env from .next/apps/web/.env
-rm .next/apps/web/.env
+rm $APP_ROOT/apps/web/.env
 
 # Copy static to /app/.next
 mkdir -p $APP_ROOT/apps/web/.next
