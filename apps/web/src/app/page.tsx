@@ -1,8 +1,8 @@
 "use client";
 
 import { type HelloHandler } from "@deploy-fly-bun-hono-nextjs/server/handlers";
-import { hc } from "hono/client";
 import { useEffect, useState } from "react";
+import { hc } from "hono/client";
 
 const URL = process.env.NEXT_PUBLIC_SERVER_URL;
 const ENDPOINT = process.env.NEXT_PUBLIC_ENDPOINT;
@@ -43,7 +43,7 @@ export default function Home() {
 			}
 		};
 
-		fetchMessage();
+		void fetchMessage();
 	}, []);
 
 	function handlerOnError() {
@@ -51,7 +51,7 @@ export default function Home() {
 	}
 
 	return (
-		<div className="flex items-center justify-center min-h-screen p-4">
+		<div className="flex min-h-screen items-center justify-center p-4">
 			<div className="text-center">
 				{loading ? (
 					<p>Loading...</p>

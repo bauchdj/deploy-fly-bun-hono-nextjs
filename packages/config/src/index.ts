@@ -22,9 +22,7 @@ if (uniqueEnvVars.size !== envVars.length) {
 // }
 
 type EnvKey = (typeof envVars)[number];
-type EnvVars = {
-	[K in EnvKey]: string;
-};
+type EnvVars = Record<EnvKey, string>;
 
 // Validate that all required environment variables are set
 const env: EnvVars = {} as EnvVars;

@@ -6,7 +6,7 @@ import { CHILDREN_ENV_GLOB_PATTERN, getEnvFiles } from "./utils/env-files";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function cleanChildEnvFiles(dryRun: boolean = false) {
+async function cleanChildEnvFiles(dryRun = false) {
 	const rootDir = join(__dirname, "..");
 	const envFiles = await getEnvFiles(CHILDREN_ENV_GLOB_PATTERN, rootDir);
 

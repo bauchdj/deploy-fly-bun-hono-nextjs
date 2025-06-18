@@ -1,3 +1,5 @@
+ 
+// oxlint-disable no-await-in-loop
 import { glob } from "glob";
 import { access, constants, copyFile, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -130,4 +132,4 @@ async function main() {
 	}
 }
 
-main();
+void main();

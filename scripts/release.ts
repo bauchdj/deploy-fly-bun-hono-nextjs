@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+ 
 /**
  * release.ts
  *
@@ -197,4 +198,4 @@ if (!versionType) {
 
 console.log(`Using package.json at: ${packageJsonPath}`);
 
-release(versionType, packageJsonPath);
+void release(versionType, packageJsonPath);
