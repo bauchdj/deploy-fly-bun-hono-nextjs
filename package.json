@@ -15,7 +15,7 @@
 		"start:server": "bun --cwd=apps/server start",
 		"start:web": "bun --cwd=apps/web start",
 		"lint": "oxlint; eslint .; bun run --cwd=apps/web lint",
-		"lint:fix": "oxlint --fix; eslint . --fix; bun run --cwd=apps/web lint:fix",
+		"lint:fix": "oxlint --fix; eslint . --fix; bun run --cwd=apps/web lint --fix",
 		"format": "bun prettier . --write --list-different",
 		"format:check": "bun prettier . --check",
 		"db:generate": "bun run --cwd=packages/db db:generate",

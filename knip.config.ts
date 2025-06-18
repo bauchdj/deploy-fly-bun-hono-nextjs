@@ -18,7 +18,6 @@ const config: KnipConfig = {
 			entry: indexEntry,
 			project,
 			ignoreBinaries,
-			ignoreDependencies: ignoreTsconfigDependencies,
 		},
 
 		// https://knip.dev/reference/plugins/next#_top
@@ -29,11 +28,6 @@ const config: KnipConfig = {
 
 		"packages/config": {
 			ignore: ["src/utils/*"],
-			ignoreDependencies: ignoreTsconfigDependencies,
-		},
-
-		"packages/db": {
-			ignoreDependencies: ignoreTsconfigDependencies,
 		},
 
 		"packages/tsconfig": {

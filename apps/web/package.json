@@ -26,6 +26,7 @@
 	},
 	"devDependencies": {
 		"@deploy-fly-bun-hono-nextjs/eslint": "workspace:*",
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
 		"typescript": "^5",
 		"@types/node": "^20",
 		"@types/react": "^19",

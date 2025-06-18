@@ -45,6 +45,7 @@
       },
       "devDependencies": {
         "@deploy-fly-bun-hono-nextjs/eslint": "workspace:*",
+        "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@eslint/eslintrc": "^3",
         "@tailwindcss/postcss": "^4",
         "@types/node": "^20",
