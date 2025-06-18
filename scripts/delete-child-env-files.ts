@@ -1,7 +1,7 @@
+import { CHILDREN_ENV_GLOB_PATTERN, getEnvFiles } from "./utils/env-files";
 import { unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { CHILDREN_ENV_GLOB_PATTERN, getEnvFiles } from "./utils/env-files";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,22 +11,15 @@ async function cleanChildEnvFiles(dryRun = false) {
 	const envFiles = await getEnvFiles(CHILDREN_ENV_GLOB_PATTERN, rootDir);
 
 	if (dryRun) {
-		envFiles.forEach((file) =>
-			console.log(`  📄 [DRY RUN] Would delete ${file}`)
-		);
+		envFiles.forEach(file => console.log(`  📄 [DRY RUN] Would delete ${file}`));
 		return;
 	}
 
 	await Promise.all(
-		envFiles.map((file) =>
+		envFiles.map(file =>
 			unlink(file)
 				.then(() => console.log(`  ✅ Deleted ${file}`))
-				.catch((err) =>
-					console.error(
-						`  ❌ Error deleting ${file}:`,
-						err instanceof Error ? err.message : err
-					)
-				)
+				.catch(err => console.error(`  ❌ Error deleting ${file}:`, err instanceof Error ? err.message : err))
 		)
 	);
 }
@@ -41,9 +34,7 @@ export async function cleanChildEnvDryRun() {
 
 async function main() {
 	const isDryRun = process.argv.includes("--dry-run");
-	console.log(
-		`🚀 Starting to delete child .env files${isDryRun ? " (dry run)" : ""}`
-	);
+	console.log(`🚀 Starting to delete child .env files${isDryRun ? " (dry run)" : ""}`);
 
 	if (isDryRun) {
 		await cleanChildEnvDryRun();
@@ -54,4 +45,4 @@ async function main() {
 	console.log("✨ Done!");
 }
 
-main().catch((err) => console.error(err));
+main().catch(err => console.error(err));

@@ -1,11 +1,5 @@
+import { integer, pgTable, timestamp, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import {
-	integer,
-	pgTable,
-	timestamp,
-	uniqueIndex,
-	varchar,
-} from "drizzle-orm/pg-core";
 
 export const userTable = pgTable(
 	"user",
@@ -19,10 +13,7 @@ export const userTable = pgTable(
 			.defaultNow()
 			.$onUpdate(() => new Date()),
 	},
-	(table) => [
-		uniqueIndex("username_idx").on(table.username),
-		uniqueIndex("email_idx").on(table.email),
-	]
+	table => [uniqueIndex("username_idx").on(table.username), uniqueIndex("email_idx").on(table.email)]
 );
 
 export type User = InferSelectModel<typeof userTable>; // return type when queried

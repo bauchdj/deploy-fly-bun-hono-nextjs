@@ -1,10 +1,9 @@
- 
 // oxlint-disable no-await-in-loop
-import { glob } from "glob";
 import { access, constants, copyFile, readFile } from "node:fs/promises";
+import { getEnvFiles, ROOT_ENV_GLOB_PATTERN } from "./utils/env-files";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getEnvFiles, ROOT_ENV_GLOB_PATTERN } from "./utils/env-files";
+import { glob } from "glob";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,25 +25,19 @@ async function main() {
 	const args = process.argv.slice(2);
 	const isDryRun = args.includes("--dry-run");
 
-	console.log(
-		`🚀 Starting to copy .env files${isDryRun ? " (dry run)" : ""}`
-	);
+	console.log(`🚀 Starting to copy .env files${isDryRun ? " (dry run)" : ""}`);
 
 	try {
 		// Read package.json
 		const packageJsonPath = join(__dirname, "..", "package.json");
-		const packageJson: PackageJson = JSON.parse(
-			await readFile(packageJsonPath, "utf-8")
-		);
+		const packageJson: PackageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
 
 		if (!packageJson.workspaces || packageJson.workspaces.length === 0) {
 			console.log("No workspaces found in package.json");
 			return;
 		}
 
-		console.log(
-			`📦 Found workspaces: ${packageJson.workspaces.join(", ")}`
-		);
+		console.log(`📦 Found workspaces: ${packageJson.workspaces.join(", ")}`);
 
 		// Find all .env* files in root
 		const rootDir = join(__dirname, "..");
@@ -55,11 +48,7 @@ async function main() {
 			return;
 		}
 
-		console.log(
-			`🔍 Found .env files: ${envFiles
-				.map((f) => f.split("/").pop())
-				.join(", ")}`
-		);
+		console.log(`🔍 Found .env files: ${envFiles.map(f => f.split("/").pop()).join(", ")}`);
 
 		// Process each workspace pattern
 		for (const workspacePattern of packageJson.workspaces) {
@@ -67,28 +56,18 @@ async function main() {
 				await glob(workspacePattern, {
 					cwd: rootDir,
 					withFileTypes: true,
-					ignore: [
-						"node_modules",
-						"dist",
-						"build",
-						"coverage",
-						"out",
-					],
+					ignore: ["node_modules", "dist", "build", "coverage", "out"],
 				})
 			)
-				.filter((dirent) => dirent.isDirectory())
-				.map((dirent) => dirent.fullpath());
+				.filter(dirent => dirent.isDirectory())
+				.map(dirent => dirent.fullpath());
 
 			for (const workspaceDir of workspaceDirs) {
-				console.log(
-					`📂 Processing workspace: ${workspaceDir.split("/").pop()}`
-				);
+				console.log(`📂 Processing workspace: ${workspaceDir.split("/").pop()}`);
 
 				// Ensure workspace directory exists
 				if (!(await fileExists(workspaceDir))) {
-					console.log(
-						`  ⚠️  Directory does not exist: ${workspaceDir}`
-					);
+					console.log(`  ⚠️  Directory does not exist: ${workspaceDir}`);
 					continue;
 				}
 
@@ -98,24 +77,13 @@ async function main() {
 					const destPath = join(workspaceDir, fileName);
 
 					if (isDryRun) {
-						console.log(
-							`  📄 [DRY RUN] Would copy ${fileName} to ${workspaceDir
-								.split("/")
-								.pop()}/`
-						);
+						console.log(`  📄 [DRY RUN] Would copy ${fileName} to ${workspaceDir.split("/").pop()}/`);
 					} else {
 						try {
 							await copyFile(envFile, destPath);
-							console.log(
-								`  ✅ Copied ${fileName} to ${workspaceDir
-									.split("/")
-									.pop()}/`
-							);
+							console.log(`  ✅ Copied ${fileName} to ${workspaceDir.split("/").pop()}/`);
 						} catch (error) {
-							console.error(
-								`  ❌ Error copying ${fileName}:`,
-								error instanceof Error ? error.message : error
-							);
+							console.error(`  ❌ Error copying ${fileName}:`, error instanceof Error ? error.message : error);
 						}
 					}
 				}
@@ -124,10 +92,7 @@ async function main() {
 
 		console.log("✨ Done!");
 	} catch (error) {
-		console.error(
-			"❌ An error occurred:",
-			error instanceof Error ? error.message : error
-		);
+		console.error("❌ An error occurred:", error instanceof Error ? error.message : error);
 		process.exit(1);
 	}
 }

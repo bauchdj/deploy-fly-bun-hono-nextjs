@@ -1,14 +1,15 @@
 # Deploy Bun, Hono, Next.js to Fly.io or any container platform
 
-A modern full-stack application built with Next.js, Hono, and Bun, designed for deployment on any container platform, but with everything you need to deploy to Fly.io.
+A modern full-stack application built with Next.js, Hono, and Bun, designed for deployment on any container platform,
+but with everything you need to deploy to Fly.io.
 
 ## 🚀 Tech Stack
 
--   **Frontend**: Next.js TypeScript, Tailwind CSS
--   **Backend**: Hono.js, TypeScript, Bun
--   **Database**: PostgreSQL (Drizzle)
--   **Deployment**: Docker, Fly.io
--   **Package Manager**: Bun
+- **Frontend**: Next.js TypeScript, Tailwind CSS
+- **Backend**: Hono.js, TypeScript, Bun
+- **Database**: PostgreSQL (Drizzle)
+- **Deployment**: Docker, Fly.io
+- **Package Manager**: Bun
 
 ## 📦 Project Structure
 
@@ -26,56 +27,59 @@ A modern full-stack application built with Next.js, Hono, and Bun, designed for 
 
 ## 🛠️ Prerequisites
 
--   [Bun](https://bun.sh/) (v1.0.0 or later)
--   [Docker](https://www.docker.com/) (for local development)
--   [Orbstack](https://orbstack.dev/) (highly recommend this Mac DockerHub alternative)
--   [PostgreSQL](https://www.postgresql.org/) (for local development)
--   [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) (for deployment)
+- [Bun](https://bun.sh/) (v1.0.0 or later)
+- [Docker](https://www.docker.com/) (for local development)
+- [Orbstack](https://orbstack.dev/) (highly recommend this Mac DockerHub alternative)
+- [PostgreSQL](https://www.postgresql.org/) (for local development)
+- [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) (for deployment)
 
 ## 🚀 Getting Started
 
 1. **Clone the repository**
 
-    ```bash
-    git clone https://github.com/your-username/deploy-fly-bun-hono-nextjs.git
-    cd deploy-fly-bun-hono-nextjs
-    ```
+   ```bash
+   git clone https://github.com/your-username/deploy-fly-bun-hono-nextjs.git
+   cd deploy-fly-bun-hono-nextjs
+   ```
 
 2. **Install dependencies**
 
-    ```bash
-    bun install
-    ```
+   ```bash
+   bun install
+   ```
 
 3. **Set up environment variables**
 
-    ```bash
-    cp .env.example .env
-    # Edit .env with your configuration
-    ```
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
 
-    The `.env` is used for local development and production deployment. The root package.json has these scripts to help you manage the environment variables:
+   The `.env` is used for local development and production deployment. The root package.json has these scripts to help
+   you manage the environment variables:
 
-    ```bash
-    bun run env:sync
-    bun run env:sync:dry-run
-    bun run env:clean
-    bun run env:clean:dry-run
-    bun run env:clean-sync
-    ```
+   ```bash
+   bun run env:sync
+   bun run env:sync:dry-run
+   bun run env:clean
+   bun run env:clean:dry-run
+   bun run env:clean-sync
+   ```
 
-    The `env:sync` script will copy the environment variables from the root `.env` to the child `.env` files. The `env:clean` script will remove the child `.env` files. The `env:clean-sync` script will remove the child `.env` files and then copy the environment variables from the root `.env` to the child `.env` files.
+   The `env:sync` script will copy the environment variables from the root `.env` to the child `.env` files. The
+   `env:clean` script will remove the child `.env` files. The `env:clean-sync` script will remove the child `.env` files
+   and then copy the environment variables from the root `.env` to the child `.env` files.
 
 4. **Start the development servers**
 
-    ```bash
-    # Start both web and server in development mode
-    bun run dev
+   ```bash
+   # Start both web and server in development mode
+   bun run dev
 
-    # Or start them separately
-    bun run dev:web     # Start web app (port 3000)
-    bun run dev:server  # Start API server (port 8080)
-    ```
+   # Or start them separately
+   bun run dev:web     # Start web app (port 3000)
+   bun run dev:server  # Start API server (port 8080)
+   ```
 
 ## 🏗️ Building for Production
 
@@ -120,9 +124,9 @@ Follow these steps to deploy your application for the first time:
 
 ### Prerequisites
 
--   [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) installed and authenticated
--   [Docker](https://www.docker.com/) running locally
--   Root `.env` file configured with your environment variables
+- [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) installed and authenticated
+- [Docker](https://www.docker.com/) running locally
+- Root `.env` file configured with your environment variables
 
 ### Step 1: Run the Server Deployment Script
 
@@ -142,25 +146,28 @@ bun run fly:deploy
 
 1. **Create a new Fly.io app**
 
-    - **IMPORTANT**: Run the recommended command that the deploy script generated for you
-        - Example: `fly launch --no-deploy --name bun-hono-api --internal-port 8080 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
-    - Type `y` to use the existing configuration
-    - Type `y` again to configure it. This will open a browser tab.
+   - **IMPORTANT**: Run the recommended command that the deploy script generated for you
+     - Example:
+       `fly launch --no-deploy --name bun-hono-api --internal-port 8080 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
+   - Type `y` to use the existing configuration
+   - Type `y` again to configure it. This will open a browser tab.
 
 2. **Configure Postgres in Browser**
 
-    - Select a Postgres option
-    - Give it a name. It has to be unique.
-        - Example: `bun-hono-api-pg`
-    - For development, you may want to scale down resources
-    - Adjust CPU, memory, and other settings as needed
+   - Select a Postgres option
+   - Give it a name. It has to be unique.
+     - Example: `bun-hono-api-pg`
+   - For development, you may want to scale down resources
+   - Adjust CPU, memory, and other settings as needed
 
 3. **Docker Configuration**
-    - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`. It will ask after the postgres app finishes.
+   - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`. It will ask after the postgres app
+     finishes.
 
 ### Step 3: Save Database Connection Info
 
-After the Postgres app is created, **carefully save the connection information** displayed in the terminal. You'll need these details for your `.env` file.
+After the Postgres app is created, **carefully save the connection information** displayed in the terminal. You'll need
+these details for your `.env` file.
 
 Example connection info:
 
@@ -177,7 +184,8 @@ Postgres cluster bun-hono-api-pg created
 
 ### Step 4: Verify Deployment of Server and Postgres
 
-Once the Postgres deployment completes, your postgres app will be available at the name you configured. You can see it and your server app by running `fly apps list`.
+Once the Postgres deployment completes, your postgres app will be available at the name you configured. You can see it
+and your server app by running `fly apps list`.
 
 Example output:
 
@@ -202,7 +210,8 @@ Create and edit .env file
 cp .env.example .env
 ```
 
-**IMPORTANT**: Update the database variables based on the info it gave you. Change the `DATABASE_URL` temporarily so that the `<postgres-app-name>.flycast` is `localhost`.
+**IMPORTANT**: Update the database variables based on the info it gave you. Change the `DATABASE_URL` temporarily so
+that the `<postgres-app-name>.flycast` is `localhost`.
 
 Example database env variables:
 
@@ -274,17 +283,19 @@ bun run fly:deploy
 
 1. **Create a new Fly.io app**
 
-    - **IMPORTANT**: Run the recommended command that the deploy script generated for you
-        - Example: `fly launch --no-deploy --name bun-nextjs-web --internal-port 3000 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
-    - Type `y` to use the existing configuration
-    - Type `y` again to configure it. This will open a browser tab.
+   - **IMPORTANT**: Run the recommended command that the deploy script generated for you
+     - Example:
+       `fly launch --no-deploy --name bun-nextjs-web --internal-port 3000 --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256`
+   - Type `y` to use the existing configuration
+   - Type `y` again to configure it. This will open a browser tab.
 
 2. **Docker Configuration**
-    - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`
+   - **IMPORTANT**: Type `n` when asked to create `.dockerignore` from `.gitignore`
 
 ### Step 11: Verify App Creation
 
-Now your postgres, server, and web app will be available on Fly.io at the name you configured. You can see them by running `fly apps list`.
+Now your postgres, server, and web app will be available on Fly.io at the name you configured. You can see them by
+running `fly apps list`.
 
 Example output:
 
@@ -310,11 +321,11 @@ bun run fly:deploy
 
 This does the following:
 
--   First it bumps all the `versions` by 0.0.1+ by `default`
--   Then it will delete all `.env` files in child directories and copy the root `.env` files to the child directories.
--   Then it will update the `secrets` and `stage` them on fly based on the env file.
--   Then it will `build` and `deploy` the **server** app
--   Then it will `build` and `deploy` the **web** app
+- First it bumps all the `versions` by 0.0.1+ by `default`
+- Then it will delete all `.env` files in child directories and copy the root `.env` files to the child directories.
+- Then it will update the `secrets` and `stage` them on fly based on the env file.
+- Then it will `build` and `deploy` the **server** app
+- Then it will `build` and `deploy` the **web** app
 
 ### Step 15: Verify Deployment and Celebrate! 🎉
 
@@ -334,7 +345,8 @@ bun-hono-api-pg	personal	deployed
 bun-nextjs-web 	personal	suspended
 ```
 
-If everything was successful, you should be able to navigate to `<web-app-name>.fly.dev`, for ex. [bun-nextjs-web.fly.dev](https://bun-nextjs-web.fly.dev), and see `"Hello Hono!"`
+If everything was successful, you should be able to navigate to `<web-app-name>.fly.dev`, for ex.
+[bun-nextjs-web.fly.dev](https://bun-nextjs-web.fly.dev), and see `"Hello Hono!"`
 
 ## 🔄 Environment Variables
 
@@ -361,12 +373,12 @@ REGISTRY="registry.fly.io"
 
 ## 📝 Available Scripts
 
--   `bun run dev` - Start both web and server in development mode
--   `bun run build` - Build both web and server for production
--   `bun run start` - Start both web and server in production mode
--   `bun run lint` - Run linter
--   `bun run db:migrate` - Run database migrations
--   `bun run fly:deploy` - Deploy both web and server to Fly.io
+- `bun run dev` - Start both web and server in development mode
+- `bun run build` - Build both web and server for production
+- `bun run start` - Start both web and server in production mode
+- `bun run lint` - Run linter
+- `bun run db:migrate` - Run database migrations
+- `bun run fly:deploy` - Deploy both web and server to Fly.io
 
 ## 🤝 Contributing
 

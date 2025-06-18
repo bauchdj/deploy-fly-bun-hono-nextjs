@@ -1,5 +1,5 @@
-import { db } from "./index";
 import { sql } from "drizzle-orm";
+import { db } from "./index";
 
 export async function isDbConnected(): Promise<boolean> {
 	try {

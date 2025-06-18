@@ -1,10 +1,6 @@
-import { db } from "@deploy-fly-bun-hono-nextjs/db";
-import {
-	userTable,
-	type NewUser,
-	type User,
-} from "@deploy-fly-bun-hono-nextjs/db/schema/user";
+import { userTable, type NewUser, type User } from "@deploy-fly-bun-hono-nextjs/db/schema/user";
 import { isDbConnected } from "@deploy-fly-bun-hono-nextjs/db/utils";
+import { db } from "@deploy-fly-bun-hono-nextjs/db";
 
 export async function service() {
 	const helloWorld = buildMessage("World");

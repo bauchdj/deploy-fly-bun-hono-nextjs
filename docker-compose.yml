@@ -1,67 +1,67 @@
 services:
-    # Database Service
-    db:
-        image: postgres:16
-        container_name: db-root-compose
-        restart: unless-stopped
-        env_file: .env
-        environment:
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            POSTGRES_DB: ${POSTGRES_DB}
-        ports:
-            - "5432:5432"
-        volumes:
-            - postgres-data:/var/lib/postgresql/data
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U postgres"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-        networks:
-            - deploy-fly-bun-hono-nextjs-network
+  # Database Service
+  db:
+    image: postgres:16
+    container_name: db-root-compose
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - deploy-fly-bun-hono-nextjs-network
 
-    # Server Service
-    server:
-        build:
-            context: apps/server
-            dockerfile: Dockerfile
-        container_name: server-root-compose
-        restart: unless-stopped
-        env_file: .env
-        environment:
-            NODE_ENV: production
-            DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
-            DATABASE_HOST: db
-        ports:
-            - "${SERVER_PORT}:${SERVER_PORT}"
-        depends_on:
-            db:
-                condition: service_healthy
-        networks:
-            - deploy-fly-bun-hono-nextjs-network
+  # Server Service
+  server:
+    build:
+      context: apps/server
+      dockerfile: Dockerfile
+    container_name: server-root-compose
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      DATABASE_HOST: db
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - deploy-fly-bun-hono-nextjs-network
 
-    # Web Service
-    web:
-        build:
-            context: apps/web
-            dockerfile: Dockerfile
-        container_name: web-root-compose
-        restart: unless-stopped
-        env_file: .env
-        environment:
-            NODE_ENV: production
-        ports:
-            - "${WEB_PORT}:${WEB_PORT}"
-        depends_on:
-            - server
-        networks:
-            - deploy-fly-bun-hono-nextjs-network
+  # Web Service
+  web:
+    build:
+      context: apps/web
+      dockerfile: Dockerfile
+    container_name: web-root-compose
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+    depends_on:
+      - server
+    networks:
+      - deploy-fly-bun-hono-nextjs-network
 
 volumes:
-    postgres-data:
-        name: deploy-fly-bun-hono-nextjs-network-root-compose-postgres-data
+  postgres-data:
+    name: deploy-fly-bun-hono-nextjs-network-root-compose-postgres-data
 
 networks:
-    deploy-fly-bun-hono-nextjs-network:
-        driver: bridge
+  deploy-fly-bun-hono-nextjs-network:
+    driver: bridge

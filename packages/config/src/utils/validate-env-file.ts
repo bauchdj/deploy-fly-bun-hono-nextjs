@@ -1,6 +1,6 @@
+import { getEnvCount } from "./env-count";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getEnvCount } from "./env-count";
 
 export async function validateEnvFile(envVars: readonly string[]) {
 	const __filename = fileURLToPath(import.meta.url);

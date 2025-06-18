@@ -8,9 +8,7 @@ const envVars = [...databaseEnvVars, ...serverEnvVars, ...webEnvVars] as const;
 // Ensure all environment variables are unique
 const uniqueEnvVars = new Set(envVars);
 if (uniqueEnvVars.size !== envVars.length) {
-	console.error(
-		"Duplicate environment variables found. Check const arrays of env variables."
-	);
+	console.error("Duplicate environment variables found. Check const arrays of env variables.");
 	process.exit(1);
 }
 
@@ -29,9 +27,7 @@ const env: EnvVars = {} as EnvVars;
 
 for (const key of envVars) {
 	if (Bun === undefined) {
-		console.error(
-			`Bun is undefined. Environment variables are not loaded. Try bun --bun run <cmd>`
-		);
+		console.error(`Bun is undefined. Environment variables are not loaded. Try bun --bun run <cmd>`);
 		process.exit(1);
 	}
 

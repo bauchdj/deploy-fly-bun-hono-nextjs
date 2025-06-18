@@ -1,9 +1,9 @@
 import { config } from "@deploy-fly-bun-hono-nextjs/config";
-import { Hono } from "hono";
+import { corsMiddleware } from "./middleware";
 import health from "./handlers/health";
 import hello from "./handlers/hello";
 import root from "./handlers/root";
-import { corsMiddleware } from "./middleware";
+import { Hono } from "hono";
 
 const app = new Hono();
 

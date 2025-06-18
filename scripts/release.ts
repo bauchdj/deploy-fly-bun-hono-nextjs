@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
- 
+
 /**
  * release.ts
  *
@@ -16,8 +16,8 @@
  *   -i, --input  Path to package.json (default: ./package.json)
  */
 
-import { execSync } from "child_process";
 import { existsSync, readFileSync } from "fs";
+import { execSync } from "child_process";
 import { resolve } from "path";
 
 type VersionType = "major" | "minor" | "patch";
@@ -108,10 +108,7 @@ function runTests(): void {
  * @param versionType - Type of version bump
  * @returns New version
  */
-function bumpVersion(
-	versionType: VersionType,
-	packageJsonPath: string
-): string {
+function bumpVersion(versionType: VersionType, packageJsonPath: string): string {
 	console.log(`Bumping ${versionType} version...`);
 	runCommand(`bun run scripts/bump-version.ts ${versionType}`);
 	const newVersion = getCurrentVersion(packageJsonPath);
@@ -154,9 +151,7 @@ async function release(versionType: VersionType, packageJsonPath: string) {
 
 		// Check if working directory is clean
 		if (!isWorkingDirectoryClean()) {
-			console.error(
-				"Working directory is not clean. Please commit or stash your changes."
-			);
+			console.error("Working directory is not clean. Please commit or stash your changes.");
 			process.exit(1);
 		}
 
@@ -186,13 +181,9 @@ const { versionType, packageJsonPath } = parseArgs();
 if (!versionType) {
 	console.error('Please specify version type: "major", "minor", or "patch"');
 	console.error("\nUsage:");
-	console.error(
-		"  bun run scripts/release.ts [major|minor|patch] [--input <path> | -i <path>]"
-	);
+	console.error("  bun run scripts/release.ts [major|minor|patch] [--input <path> | -i <path>]");
 	console.error("\nOptions:");
-	console.error(
-		"  -i, --input  Path to package.json (default: ./package.json)"
-	);
+	console.error("  -i, --input  Path to package.json (default: ./package.json)");
 	process.exit(1);
 }
 

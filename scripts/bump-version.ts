@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
- 
+
 /**
  * bump-version.ts
  *
@@ -65,14 +65,10 @@ function bumpVersion(versionType: VersionType, packageJsonPath: string): void {
 		}
 
 		// Parse the current version
-		const [major, minor, patch] = packageJson.version
-			.split(".")
-			.map(Number);
+		const [major, minor, patch] = packageJson.version.split(".").map(Number);
 
 		if (major === undefined || minor === undefined || patch === undefined) {
-			throw new Error(
-				`Invalid version format in package.json. ${major}.${minor}.${patch}`
-			);
+			throw new Error(`Invalid version format in package.json. ${major}.${minor}.${patch}`);
 		}
 
 		// Calculate the new version
@@ -95,14 +91,9 @@ function bumpVersion(versionType: VersionType, packageJsonPath: string): void {
 		packageJson.version = newVersion;
 
 		// Write the updated package.json
-		writeFileSync(
-			packageJsonPath,
-			JSON.stringify(packageJson, null, "\t") + "\n"
-		);
+		writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, "\t") + "\n");
 
-		console.log(
-			`Version bumped from ${major}.${minor}.${patch} to ${newVersion}`
-		);
+		console.log(`Version bumped from ${major}.${minor}.${patch} to ${newVersion}`);
 	} catch (error) {
 		console.error(`Error bumping version: ${error}`);
 		process.exit(1);
@@ -115,13 +106,9 @@ const { versionType, packageJsonPath } = parseArgs();
 if (!versionType) {
 	console.error('Please specify version type: "major", "minor", or "patch"');
 	console.error("\nUsage:");
-	console.error(
-		"  bun run scripts/bump-version.ts [major|minor|patch] [--input <path> | -i <path>]"
-	);
+	console.error("  bun run scripts/bump-version.ts [major|minor|patch] [--input <path> | -i <path>]");
 	console.error("\nOptions:");
-	console.error(
-		"  -i, --input  Path to package.json (default: ./package.json)"
-	);
+	console.error("  -i, --input  Path to package.json (default: ./package.json)");
 	process.exit(1);
 }
 
