@@ -1,0 +1,26 @@
+{
+	"name": "@deploy-fly-bun-hono-nextjs/cache",
+	"version": "0.0.4",
+	"type": "module",
+	"private": true,
+	"exports": {
+		"./rate-limiters": "./src/rate-limiters.ts",
+		"./valkey": "./src/valkey.ts"
+	},
+	"scripts": {
+		"build": "bun build src/rate-limiters.ts --outdir dist --target bun",
+		"docker:up": "docker compose up -d",
+		"docker:down": "docker compose down",
+		"docker:remove": "docker compose down --rmi local -v",
+		"docker:reset": "bun run docker:remove && bun run docker:up"
+	},
+	"dependencies": {
+		"@deploy-fly-bun-hono-nextjs/config": "workspace:*",
+		"iovalkey": "^0.3.3",
+		"rate-limiter-flexible": "^7.1.1"
+	},
+	"devDependencies": {
+		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
+		"@types/bun": "latest"
+	}
+}

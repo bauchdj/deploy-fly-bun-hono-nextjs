@@ -1,9 +1,10 @@
 import { databaseEnvVars } from "./database";
 import { serverEnvVars } from "./server";
+import { cacheEnvVars } from "./cache";
 import { webEnvVars } from "./web";
 
 // Define required environment variables
-const envVars = [...databaseEnvVars, ...serverEnvVars, ...webEnvVars] as const;
+const envVars = [...serverEnvVars, ...webEnvVars, ...databaseEnvVars, ...cacheEnvVars] as const;
 
 // Ensure all environment variables are unique
 const uniqueEnvVars = new Set(envVars);

@@ -21,9 +21,10 @@
 		"fly:deploy": "bun run build && bash ../../scripts/fly:deploy.sh server"
 	},
 	"dependencies": {
-		"hono": "^4.7.11",
+		"@deploy-fly-bun-hono-nextjs/cache": "workspace:*",
+		"@deploy-fly-bun-hono-nextjs/config": "workspace:*",
 		"@deploy-fly-bun-hono-nextjs/db": "workspace:*",
-		"@deploy-fly-bun-hono-nextjs/config": "workspace:*"
+		"hono": "^4.7.11"
 	},
 	"devDependencies": {
 		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",

@@ -1,0 +1,3 @@
+{
+	"extends": "@deploy-fly-bun-hono-nextjs/tsconfig/base"
+}
