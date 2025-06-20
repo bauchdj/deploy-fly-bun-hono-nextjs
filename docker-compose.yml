@@ -21,6 +21,7 @@ services:
     networks:
       - deploy-fly-bun-hono-nextjs-network
 
+  # Cache Service
   cache:
     image: valkey/valkey:latest
     container_name: cache-root-compose
@@ -44,6 +45,8 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
+    networks:
+      - deploy-fly-bun-hono-nextjs-network
 
   # Server Service
   server:
@@ -57,11 +60,20 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
       DATABASE_HOST: db
+      VALKEY_HOST: cache
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       db:
         condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget", "-q", "-O", "/dev/null", "http://localhost:${SERVER_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
     networks:
       - deploy-fly-bun-hono-nextjs-network
 
@@ -78,7 +90,14 @@ services:
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
     depends_on:
-      - server
+      server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget", "-q", "-O", "/dev/null", "http://localhost:${WEB_PORT}/favicon.ico"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
     networks:
       - deploy-fly-bun-hono-nextjs-network
 

@@ -1,8 +1,8 @@
 # Dependency directories
-*/node_modules/
-*/.next/
-*/dist/
-*/build/
+**/node_mod*les/** */
+**/.next/**
+**/dist/**
+**/build/**
 *package-lock.json
 *bun.lock
 
@@ -26,9 +26,6 @@ drizzle/
 
 # Log files
 *.log
-
-# Dotfiles
-.*
 
 # If you have serverless function output directories (e.g., Vercel, Netlify)
 */.vercel/
