@@ -69,11 +69,10 @@ services:
       cache:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget", "-q", "-O", "/dev/null", "http://localhost:${SERVER_PORT}/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
+      test: ["CMD", "bun", "/app/health-check.js"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
     networks:
       - deploy-fly-bun-hono-nextjs-network
 
@@ -93,11 +92,10 @@ services:
       server:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget", "-q", "-O", "/dev/null", "http://localhost:${WEB_PORT}/favicon.ico"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
+      test: ["CMD", "bun", "/app/health-check.js"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
     networks:
       - deploy-fly-bun-hono-nextjs-network
 

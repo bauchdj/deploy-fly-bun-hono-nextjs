@@ -1,5 +1,6 @@
 {
 	"name": "@deploy-fly-bun-hono-nextjs/tsconfig",
+	"version": "0.0.16",
 	"private": true,
 	"exports": {
 		"./base": "./base.json"

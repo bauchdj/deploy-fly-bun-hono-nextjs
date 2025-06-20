@@ -1,6 +1,6 @@
 {
 	"name": "@deploy-fly-bun-hono-nextjs/server",
-	"version": "0.0.4",
+	"version": "0.0.16",
 	"type": "module",
 	"private": true,
 	"exports": {
@@ -24,7 +24,8 @@
 		"@deploy-fly-bun-hono-nextjs/cache": "workspace:*",
 		"@deploy-fly-bun-hono-nextjs/config": "workspace:*",
 		"@deploy-fly-bun-hono-nextjs/db": "workspace:*",
-		"hono": "^4.7.11"
+		"hono": "^4.7.11",
+		"rate-limiter-flexible": "^7.1.1"
 	},
 	"devDependencies": {
 		"@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",

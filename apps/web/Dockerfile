@@ -15,6 +15,8 @@ COPY .next/static ./apps/web/.next/static
 # Copy public to /app
 COPY public ./apps/web/public
 
+COPY health-check.js .
+
 EXPOSE 3000
 
 # Based on apps/web workspace path from root package.json

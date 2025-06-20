@@ -22,12 +22,13 @@
     },
     "apps/server": {
       "name": "@deploy-fly-bun-hono-nextjs/server",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/cache": "workspace:*",
         "@deploy-fly-bun-hono-nextjs/config": "workspace:*",
         "@deploy-fly-bun-hono-nextjs/db": "workspace:*",
         "hono": "^4.7.11",
+        "rate-limiter-flexible": "^7.1.1",
       },
       "devDependencies": {
         "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
@@ -36,7 +37,7 @@
     },
     "apps/web": {
       "name": "@deploy-fly-bun-hono-nextjs/web",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/server": "workspace:*",
         "hono": "^4.8.0",
@@ -60,7 +61,7 @@
     },
     "packages/cache": {
       "name": "@deploy-fly-bun-hono-nextjs/cache",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/config": "workspace:*",
         "iovalkey": "^0.3.3",
@@ -73,7 +74,7 @@
     },
     "packages/config": {
       "name": "@deploy-fly-bun-hono-nextjs/config",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "devDependencies": {
         "@deploy-fly-bun-hono-nextjs/tsconfig": "workspace:*",
         "@types/bun": "latest",
@@ -81,7 +82,7 @@
     },
     "packages/db": {
       "name": "@deploy-fly-bun-hono-nextjs/db",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "dependencies": {
         "@deploy-fly-bun-hono-nextjs/config": "workspace:*",
         "drizzle-orm": "^0.44.2",
@@ -99,7 +100,7 @@
     },
     "packages/eslint": {
       "name": "@deploy-fly-bun-hono-nextjs/eslint",
-      "version": "0.0.4",
+      "version": "0.0.12",
       "dependencies": {
         "@eslint/js": "^9.29.0",
         "eslint-plugin-oxlint": "^1.1.0",
@@ -111,6 +112,7 @@
     },
     "packages/tsconfig": {
       "name": "@deploy-fly-bun-hono-nextjs/tsconfig",
+      "version": "0.0.12",
     },
   },
   "packages": {

@@ -1,6 +1,6 @@
 {
 	"name": "@deploy-fly-bun-hono-nextjs/config",
-	"version": "0.0.4",
+	"version": "0.0.16",
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts"
