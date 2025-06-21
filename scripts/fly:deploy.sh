@@ -62,7 +62,7 @@ remove_old_images() {
 }
 
 ensure_fly_config() {
-    if ! fly apps list | grep -q "$APP_NAME"; then
+    if ! fly apps list | awk '{print $1}' | grep -q -x "$APP_NAME"; then
         echo -e "${RED}App $APP_NAME does not exist on Fly.${NC}"
         echo "Docs: see uasge by running: fly launch --help or visit $(linkify "https://fly.io/docs/launch/create/")"
         echo "Recommended: fly launch --no-deploy --name $APP_NAME --internal-port $APP_PORT --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256"

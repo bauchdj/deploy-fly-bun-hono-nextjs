@@ -3,6 +3,12 @@ import { serverEnvVars } from "./server";
 import { cacheEnvVars } from "./cache";
 import { webEnvVars } from "./web";
 
+// Check if Bun is defined. Used to load environment variables
+if (Bun === undefined) {
+	console.error(`Bun is undefined. Environment variables are not loaded. Try bun --bun run <cmd>`);
+	process.exit(1);
+}
+
 // Define required environment variables
 const envVars = [...serverEnvVars, ...webEnvVars, ...databaseEnvVars, ...cacheEnvVars] as const;
 
@@ -25,20 +31,20 @@ type EnvVars = Record<EnvKey, string>;
 
 // Validate that all required environment variables are set
 const env: EnvVars = {} as EnvVars;
+const missingEnv: Set<EnvKey> = new Set();
 
 for (const key of envVars) {
-	if (Bun === undefined) {
-		console.error(`Bun is undefined. Environment variables are not loaded. Try bun --bun run <cmd>`);
-		process.exit(1);
-	}
-
 	const value = Bun.env[key];
 	if (value === undefined || value === "") {
-		console.error(`Missing required environment variable: ${key}`);
-		process.exit(1);
+		missingEnv.add(key);
 	}
 	// At this point, TypeScript knows value is a string
 	env[key] = value as string;
+}
+
+if (missingEnv.size > 0) {
+	console.error(`Missing required environment variables: ${Array.from(missingEnv).join(", ")}`);
+	process.exit(1);
 }
 
 const config = { env } as const;

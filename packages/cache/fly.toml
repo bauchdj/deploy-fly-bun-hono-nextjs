@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for bun-hono-api-cache on 2025-06-21T16:45:45-04:00
+# fly.toml app configuration file generated for bun-hono-api-cache on 2025-06-21T18:15:38-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -28,6 +28,4 @@ primary_region = 'ewr'
     port = 6379
 
 [[vm]]
-  memory = '256mb'
-  cpu_kind = 'shared'
-  cpus = 1
+  size = 'shared-cpu-1x'
