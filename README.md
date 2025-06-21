@@ -156,7 +156,7 @@ bun run fly:deploy
 
    - Select a Postgres option
    - Give it a name. It has to be unique.
-     - Example: `bun-hono-api-pg`
+     - Example: `bun-hono-api-db`
    - For development, you may want to scale down resources
    - Adjust CPU, memory, and other settings as needed
 
@@ -172,14 +172,14 @@ these details for your `.env` file.
 Example connection info:
 
 ```console
-Postgres cluster bun-hono-api-pg created
+Postgres cluster bun-hono-api-db created
   Username:    postgres
   Password:    DrHjcNSjz1c7wN7
-  Hostname:    bun-hono-api-pg.internal
+  Hostname:    bun-hono-api-db.internal
   Flycast:     fdaa:a:1733:0:1::6
   Proxy port:  5432
   Postgres port:  5433
-  Connection string: postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-pg.flycast:5432
+  Connection string: postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-db.flycast:5432
 ```
 
 ### Step 4: Verify Deployment of Server and Postgres
@@ -193,7 +193,7 @@ Example output:
 % fly apps list
 NAME           	OWNER   	STATUS  	LATEST DEPLOY
 bun-hono-api   	personal	pending
-bun-hono-api-pg	personal	deployed
+bun-hono-api-db	personal	deployed
 ```
 
 ### Step 6: Create / Update .env file
@@ -217,7 +217,7 @@ Example database env variables:
 
 ```env
 DATABASE_URL=postgres://postgres:DrHjcNSjz1c7wN7@localhost:5432
-DATABASE_HOST=bun-hono-api-pg.internal
+DATABASE_HOST=bun-hono-api-db.internal
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=DrHjcNSjz1c7wN7
@@ -251,8 +251,8 @@ Edit .env file. Revert the `DATABASE_URL` so the host is `<postgres-app-name>.fl
 Example database env variables:
 
 ```env
-DATABASE_URL=postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-pg.flycast:5432
-DATABASE_HOST=bun-hono-api-pg.internal
+DATABASE_URL=postgres://postgres:DrHjcNSjz1c7wN7@bun-hono-api-db.flycast:5432
+DATABASE_HOST=bun-hono-api-db.internal
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=DrHjcNSjz1c7wN7
@@ -303,7 +303,7 @@ Example output:
 % fly apps list
 NAME           	OWNER   	STATUS  	LATEST DEPLOY
 bun-hono-api   	personal	pending
-bun-hono-api-pg	personal	deployed
+bun-hono-api-db	personal	deployed
 bun-nextjs-web 	personal	pending
 ```
 
@@ -341,7 +341,7 @@ Example output:
 % fly apps list
 NAME           	OWNER   	STATUS   	LATEST DEPLOY
 bun-hono-api   	personal	deployed 	58s ago
-bun-hono-api-pg	personal	deployed
+bun-hono-api-db	personal	deployed
 bun-nextjs-web 	personal	suspended
 ```
 

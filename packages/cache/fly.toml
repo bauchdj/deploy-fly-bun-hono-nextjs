@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for bun-hono-api-cache on 2025-06-19T22:44:37-04:00
+# fly.toml app configuration file generated for bun-hono-api-cache on 2025-06-21T16:45:45-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -6,34 +6,28 @@
 app = 'bun-hono-api-cache'
 primary_region = 'ewr'
 
+[experimental]
+  cmd = ['sh', '-c', 'valkey-server --bind 0.0.0.0 ::0 --requirepass "$VALKEY_PASSWORD" "--user $VALKEY_USERNAME on >$VALKEY_PASSWORD ~* +@all" "--user default off"']
+
 [build]
-  # dockerfile = 'Dockerfile'
   image = 'valkey/valkey:latest'
 
 [[mounts]]
   source = 'valkey_data'
-  destination = '/var/lib/valkey/data'
+  destination = '/data'
 
-[http_service]
+[[services]]
+  protocol = 'tcp'
   internal_port = 6379
-  force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
 
-[[services]]
-  protocol = 'tcp'
-  internal_port = 6379
-  auto_start_machines = true
-
   [[services.ports]]
     port = 6379
 
 [[vm]]
-  cpus = 1
-  cpu_kind = 'shared'
   memory = '256mb'
-
-[experimental]
-  cmd = ["sh", "-c", 'valkey-server --bind 0.0.0.0 ::0 --requirepass "$VALKEY_PASSWORD" "--user $VALKEY_USERNAME on >$VALKEY_PASSWORD ~* +@all" "--user default off"']
+  cpu_kind = 'shared'
+  cpus = 1

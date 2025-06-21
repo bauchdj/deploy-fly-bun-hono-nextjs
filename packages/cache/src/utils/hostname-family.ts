@@ -1,6 +1,10 @@
 import { dns } from "bun";
 
-export async function getHostnameFamily(hostname: string) {
+export async function getHostnameFamily(hostname: string): Promise<6 | 4 | null> {
+	if (hostname === "localhost") {
+		return 4;
+	}
+
 	try {
 		const ipv6Address = await dns.lookup(hostname, { family: 6 });
 		if (ipv6Address) {
