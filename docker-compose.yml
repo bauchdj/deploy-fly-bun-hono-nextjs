@@ -36,8 +36,8 @@ services:
         default off"',
       ]
     environment:
-      - VALKEY_USERNAME=${VALKEY_USERNAME:-valkey}
-      - VALKEY_PASSWORD=${VALKEY_PASSWORD:-valkey}
+      - VALKEY_USERNAME=${VALKEY_USERNAME}
+      - VALKEY_PASSWORD=${VALKEY_PASSWORD}
     volumes:
       - valkey-data:/var/lib/valkey/data
     healthcheck:
@@ -101,9 +101,9 @@ services:
 
 volumes:
   postgres-data:
-    name: deploy-fly-bun-hono-nextjs-network-root-compose-postgres-data
+    name: deploy-fly-bun-hono-nextjs-root-compose-postgres-data
   valkey-data:
-    name: deploy-fly-bun-hono-nextjs-network-root-compose-valkey-data
+    name: deploy-fly-bun-hono-nextjs-root-compose-valkey-data
 
 networks:
   deploy-fly-bun-hono-nextjs-network:

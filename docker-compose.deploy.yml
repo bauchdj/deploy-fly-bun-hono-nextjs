@@ -1,4 +1,4 @@
-# This docker compose is used by the scripts/deploy.sh script
+# This docker compose is used by the scripts/fly:deploy.sh script
 # APP_DIR_PATH
 # PLATFORM
 # REGISTRY
