@@ -2,6 +2,7 @@
 	"name": "@deploy-fly-bun-hono-nextjs/eslint",
 	"version": "0.0.17",
 	"type": "module",
+	"private": true,
 	"exports": {
 		".": "./src/index.ts"
 	},
