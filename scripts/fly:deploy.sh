@@ -23,7 +23,6 @@ linkify() {
   printf '\e]8;;%s\a%s\e]8;;\a\n' "$url" "$label"
 }
 
-
 print_vars() {
     echo -e "${CYAN}Deployment Variables:${NC}"
     echo "APP_DIR_PATH: $APP_DIR_PATH"
@@ -45,7 +44,11 @@ remove_old_images() {
 
     local count
     # wc -l counts the number of lines, awk '{print $1}' gets the first column
-    count=$(echo "$images" | wc -l | awk '{print $1}')
+    if [[ -z "$images" ]]; then
+        count=0
+    else
+        count=$(echo "$images" | wc -l | awk '{print $1}')
+    fi
 
     if [ "$count" -gt 1 ]; then
         echo -e "${YELLOW}WARNING: More than one docker image found for ${DOCKER_IMAGE_NAME}${NC}"
@@ -62,7 +65,7 @@ remove_old_images() {
 }
 
 ensure_fly_config() {
-    if ! fly apps list | awk '{print $1}' | grep -q -x "$APP_NAME"; then
+    if ! flyctl apps list | awk '{print $1}' | grep -q -x "$APP_NAME"; then
         echo -e "${RED}App $APP_NAME does not exist on Fly.${NC}"
         echo "Docs: see uasge by running: fly launch --help or visit $(linkify "https://fly.io/docs/launch/create/")"
         echo "Recommended: fly launch --no-deploy --name $APP_NAME --internal-port $APP_PORT --vm-cpu-kind shared --vm-cpus 1 --vm-memory 256"
@@ -74,7 +77,7 @@ ensure_fly_config() {
     if [ ! -f "fly.toml" ]; then
         echo -e "${YELLOW}fly.toml missing. Attempting to download config...${NC}"
         echo "Docs: visit $(linkify "https://fly.io/docs/flyctl/config-save/")"
-        fly config save --app "$APP_NAME"
+        flyctl config save --app "$APP_NAME"
         echo ""
     fi
 }
@@ -143,7 +146,7 @@ echo ""
 echo -e "${CYAN}Deploying to Fly${NC}"
 # https://fly.io/docs/launch/deploy/
 # https://fly.io/docs/apps/app-availability/#redundancy-by-default-on-first-deploy
-fly deploy --ha=false --app "$APP_NAME" --image "${DOCKER_IMAGE_NAME}:${TAG}"
+flyctl deploy --ha=false --app "$APP_NAME" --image "${DOCKER_IMAGE_NAME}:${TAG}"
 echo ""
 
 echo -e "${GREEN}Deployment complete!${NC}"

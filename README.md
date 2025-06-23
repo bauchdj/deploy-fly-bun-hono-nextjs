@@ -347,14 +347,21 @@ Navigate to root
 cd ../../
 ```
 
+Bump all versions by <major|minor|patch>. This will make each image on fly's registry unique.
+
+```bash
+bun run bump-all-versions
+```
+
+Deploy all apps
+
 ```bash
 bun run fly:deploy
 ```
 
 This does the following:
 
-- First it bumps all the `versions` by 0.0.1+ by `default`
-- Then it will delete all `.env` files in child directories and copy the root `.env` files to the child directories.
+- It will delete all `.env` files in child directories and copy the root `.env` files to the child directories.
 - Then it will update the `secrets` and `stage` them on fly based on the env file.
 - Then it will `build` and `deploy` the **cache** app
 - Then it will `build` and `deploy` the **server** app

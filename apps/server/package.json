@@ -17,7 +17,7 @@
 		"docker:down": "docker compose down",
 		"docker:remove": "docker compose down --rmi local -v",
 		"docker:reset": "bun run docker:remove && bun run docker:up",
-		"fly:secrets:stage": "fly secrets import --stage < .env",
+		"fly:secrets:stage": "flyctl secrets import --stage < .env",
 		"fly:deploy": "bun run build && bash ../../scripts/fly:deploy.sh server"
 	},
 	"dependencies": {
