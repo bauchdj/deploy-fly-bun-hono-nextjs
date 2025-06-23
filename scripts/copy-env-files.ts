@@ -1,12 +1,13 @@
 // oxlint-disable no-await-in-loop
 import { access, constants, copyFile, readFile } from "node:fs/promises";
-import { getEnvFiles, ROOT_ENV_GLOB_PATTERN } from "./utils/env-files";
+import { getRootEnvFiles } from "./utils/glob-patterns";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { glob } from "glob";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const rootDir = join(__dirname, "..");
 
 interface PackageJson {
 	workspaces?: string[];
@@ -29,7 +30,7 @@ async function main() {
 
 	try {
 		// Read package.json
-		const packageJsonPath = join(__dirname, "..", "package.json");
+		const packageJsonPath = join(rootDir, "package.json");
 		const packageJson: PackageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
 
 		if (!packageJson.workspaces || packageJson.workspaces.length === 0) {
@@ -40,8 +41,7 @@ async function main() {
 		console.log(`📦 Found workspaces: ${packageJson.workspaces.join(", ")}`);
 
 		// Find all .env* files in root
-		const rootDir = join(__dirname, "..");
-		const envFiles = await getEnvFiles(ROOT_ENV_GLOB_PATTERN, rootDir);
+		const envFiles = await getRootEnvFiles(rootDir);
 
 		if (envFiles.length === 0) {
 			console.log("No .env* files found in root directory");

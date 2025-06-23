@@ -22,9 +22,9 @@ if [[ ! "$LEVEL" =~ ^(major|minor|patch)$ ]]; then
     show_usage
 fi
 
-for file in $(find . -name "package.json" -not -path "*/node_modules/*" -not -path "*/.*/*"); do
+for file in $(find . -name "package.json" -not -path "*/node_modules/*" -not -path "*/\.*/*"); do
     bun run scripts/bump-version.ts "$LEVEL" --input "$file"
-    # git add "$file"
+    git add "$file"
 done
 
 # git commit -m "chore: patch all versions"

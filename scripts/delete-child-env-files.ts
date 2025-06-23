@@ -1,14 +1,14 @@
-import { CHILDREN_ENV_GLOB_PATTERN, getEnvFiles } from "./utils/env-files";
+import { getChildrenEnvFiles } from "./utils/glob-patterns";
 import { unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const rootDir = join(__dirname, "..");
 
 async function cleanChildEnvFiles(dryRun = false) {
-	const rootDir = join(__dirname, "..");
-	const envFiles = await getEnvFiles(CHILDREN_ENV_GLOB_PATTERN, rootDir);
+	const envFiles = await getChildrenEnvFiles(rootDir);
 
 	if (dryRun) {
 		envFiles.forEach(file => console.log(`  📄 [DRY RUN] Would delete ${file}`));

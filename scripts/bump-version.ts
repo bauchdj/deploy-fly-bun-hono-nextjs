@@ -6,10 +6,11 @@
  * Automates version bumping according to semantic versioning.
  *
  * Usage:
- *   bun run scripts/bump-version.ts [major|minor|patch] [--input <path> | -i <path>]
+ *   bun run scripts/bump-version.ts [major|minor|patch] [--input <path> | -i <path>] [--dry-run | -n]
  *
  * Options:
  *   -i, --input  Path to package.json (default: ./package.json)
+ *   -n, --dry-run  Show what would be changed without writing to disk
  */
 
 import { existsSync, readFileSync, writeFileSync } from "fs";
@@ -28,14 +29,17 @@ interface PackageJson {
  */
 function parseArgs() {
 	const args = process.argv.slice(2);
-	const result: { versionType?: VersionType; packageJsonPath: string } = {
+	const result: { versionType?: VersionType; packageJsonPath: string; dryRun: boolean } = {
 		packageJsonPath: resolve(process.cwd(), "package.json"),
+		dryRun: false,
 	};
 
 	for (let i = 0; i < args.length; i++) {
 		const arg = args[i];
 		if (arg === "-i" || arg === "--input") {
 			result.packageJsonPath = resolve(process.cwd(), args[++i]!);
+		} else if (arg === "-n" || arg === "--dry-run") {
+			result.dryRun = true;
 		} else if (["major", "minor", "patch"].includes(arg!)) {
 			result.versionType = arg as VersionType;
 		}
@@ -48,8 +52,9 @@ function parseArgs() {
  * Bumps the version in package.json
  * @param versionType - The type of version bump (major, minor, patch)
  * @param packageJsonPath - Path to package.json
+ * @param dryRun - If true, only show what would be changed without writing to disk
  */
-function bumpVersion(versionType: VersionType, packageJsonPath: string): void {
+function bumpVersion(versionType: VersionType, packageJsonPath: string, dryRun = false): void {
 	try {
 		// Verify package.json exists
 		if (!existsSync(packageJsonPath)) {
@@ -90,10 +95,13 @@ function bumpVersion(versionType: VersionType, packageJsonPath: string): void {
 		// Update the version in package.json
 		packageJson.version = newVersion;
 
-		// Write the updated package.json
-		writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, "\t") + "\n");
-
-		console.log(`Version bumped from ${major}.${minor}.${patch} to ${newVersion}`);
+		if (dryRun) {
+			console.log(`[DRY RUN] Would update ${packageJsonPath} version from ${major}.${minor}.${patch} to ${newVersion}`);
+		} else {
+			// Write the updated package.json
+			writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, "\t") + "\n");
+			console.log(`Version bumped from ${major}.${minor}.${patch} to ${newVersion}`);
+		}
 	} catch (error) {
 		console.error(`Error bumping version: ${error}`);
 		process.exit(1);
@@ -101,7 +109,7 @@ function bumpVersion(versionType: VersionType, packageJsonPath: string): void {
 }
 
 // Parse command line arguments
-const { versionType, packageJsonPath } = parseArgs();
+const { versionType, packageJsonPath, dryRun } = parseArgs();
 
 if (!versionType) {
 	console.error('Please specify version type: "major", "minor", or "patch"');
@@ -112,5 +120,8 @@ if (!versionType) {
 	process.exit(1);
 }
 
+if (dryRun) {
+	console.log("[DRY RUN] Running in dry-run mode. No files will be modified.");
+}
 console.log(`Using package.json at: ${packageJsonPath}`);
-bumpVersion(versionType, packageJsonPath);
+bumpVersion(versionType, packageJsonPath, dryRun);
