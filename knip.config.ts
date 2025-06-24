@@ -5,7 +5,7 @@ const indexEntry = "src/index.{ts,js}";
 const project = "**/*.{ts,js}";
 const ignoreHealthCheck = ["health-check.{ts,js}"];
 const ignoreUtils = ["src/utils/*"];
-const ignoreBinaries = ["fly"];
+const ignoreBinaries = ["fly", "flyctl"];
 const ignoreTsconfigDependencies = ["@deploy-fly-bun-hono-nextjs/tsconfig"];
 
 const config: KnipConfig = {
