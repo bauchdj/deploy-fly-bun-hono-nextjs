@@ -1,6 +1,6 @@
 {
 	"name": "@deploy-fly-bun-hono-nextjs/web",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"type": "module",
 	"private": true,
 	"scripts": {

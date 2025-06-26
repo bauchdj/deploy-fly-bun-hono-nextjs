@@ -1,5 +1,6 @@
 import { waitlistRateLimiter } from "@deploy-fly-bun-hono-nextjs/cache/rate-limiters";
 import { RateLimiterRes, type RateLimiterAbstract } from "rate-limiter-flexible";
+import { rateLimiterTimeout } from "../config/rate-limiter";
 import type { Context, Next } from "hono";
 
 function getIp(c: Context) {
@@ -14,7 +15,7 @@ function getIp(c: Context) {
 function setRateLimitHeaders(c: Context, rateLimiterRes: RateLimiterRes, limiter: RateLimiterAbstract) {
 	const limit = limiter.points.toString();
 	const remaining = rateLimiterRes.remainingPoints.toString();
-	const reset = Math.ceil((Date.now() + rateLimiterRes.msBeforeNext) / 1000).toString();
+	const reset = Math.ceil((Date.now() + rateLimiterRes.msBeforeNext) / rateLimiterTimeout).toString();
 	const consume = (limiter.points - rateLimiterRes.remainingPoints).toString();
 
 	c.res.headers.set("X-RateLimit-Limit", limit);

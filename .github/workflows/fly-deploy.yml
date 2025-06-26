@@ -3,7 +3,7 @@ name: Deploy to Fly
 on:
   push:
     tags:
-      - "*"
+      - "@deploy-fly-bun-hono-nextjs/*"
   workflow_dispatch:
 
 env:

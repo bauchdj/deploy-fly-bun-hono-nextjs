@@ -1,5 +1,11 @@
 # @deploy-fly-bun-hono-nextjs/server
 
+## 0.0.20
+
+### Patch Changes
+
+- 3a03e7c: testing tag functionality Github action. decreasing rate lim
+
 ## 0.0.19
 
 ### Patch Changes

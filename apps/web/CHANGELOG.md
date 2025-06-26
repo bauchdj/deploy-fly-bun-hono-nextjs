@@ -1,5 +1,12 @@
 # @deploy-fly-bun-hono-nextjs/web
 
+## 0.0.20
+
+### Patch Changes
+
+- Updated dependencies [3a03e7c]
+  - @deploy-fly-bun-hono-nextjs/server@0.0.20
+
 ## 0.0.19
 
 ### Patch Changes
