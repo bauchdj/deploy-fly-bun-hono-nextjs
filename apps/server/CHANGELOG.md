@@ -1,5 +1,11 @@
 # @deploy-fly-bun-hono-nextjs/server
 
+## 0.0.19
+
+### Patch Changes
+
+- b470d59: Updated Docker image to alpine
+
 ## 0.0.18
 
 ### Patch Changes

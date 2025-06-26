@@ -70,8 +70,8 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "bun", "/app/health-check.js"]
-      interval: 10s
-      timeout: 3s
+      interval: 2s
+      timeout: 1s
       retries: 5
     networks:
       - deploy-fly-bun-hono-nextjs-network
@@ -93,8 +93,8 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "bun", "/app/health-check.js"]
-      interval: 10s
-      timeout: 3s
+      interval: 2s
+      timeout: 1s
       retries: 5
     networks:
       - deploy-fly-bun-hono-nextjs-network

@@ -1,4 +1,4 @@
-FROM oven/bun:slim
+FROM oven/bun:alpine
 
 WORKDIR /app
 ENV NODE_ENV=production
