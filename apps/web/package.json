@@ -1,11 +1,11 @@
 {
 	"name": "@deploy-fly-bun-hono-nextjs/web",
-	"version": "0.0.17",
+	"version": "0.0.18",
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build && bash scripts/handle-nextjs-standalone-build.sh",
+		"dev": "bun --bun run next dev",
+		"build": "bun --bun run next build && bash scripts/handle-nextjs-standalone-build.sh",
 		"start": "bun run .next/build-start-folder/apps/web/server.js",
 		"lint": "next lint",
 		"docker:build": "bun run build && docker build -t deploy-fly-bun-hono-nextjs-web-manual .",

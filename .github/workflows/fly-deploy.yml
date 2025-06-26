@@ -21,7 +21,7 @@ env:
 
   # Web
   WEB_APP_NAME: ${{ secrets.WEB_APP_NAME }}
-  WEB_URL: ${{ secrets.WEB_URL }}
+  NEXT_PUBLIC_WEB_URL: ${{ secrets.NEXT_PUBLIC_WEB_URL }}
   WEB_PORT: ${{ secrets.WEB_PORT }}
 
   # Database
@@ -76,7 +76,7 @@ jobs:
           echo "SERVER_PORT=${SERVER_PORT}" >> .env
           echo "NEXT_PUBLIC_ENDPOINT=${NEXT_PUBLIC_ENDPOINT}" >> .env
           echo "WEB_APP_NAME=${WEB_APP_NAME}" >> .env
-          echo "WEB_URL=${WEB_URL}" >> .env
+          echo "NEXT_PUBLIC_WEB_URL=${NEXT_PUBLIC_WEB_URL}" >> .env
           echo "WEB_PORT=${WEB_PORT}" >> .env
           echo "DATABASE_APP_NAME=${DATABASE_APP_NAME}" >> .env
           echo "DATABASE_URL=${DATABASE_URL}" >> .env

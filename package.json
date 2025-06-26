@@ -32,6 +32,8 @@
 		"docker:remove": "docker compose down --rmi local -v",
 		"docker:reset": "bun run docker:remove && bun run docker:up",
 		"changeset": "changeset",
+		"version": "changeset version",
+		"publish": "changeset publish",
 		"fly:secrets:stage": "bun run env:clean-sync && bun run --cwd=packages/cache fly:secrets:stage && bun run --cwd=apps/server fly:secrets:stage && bun run --cwd=apps/web fly:secrets:stage",
 		"fly:deploy": "bun run fly:secrets:stage && bun run --cwd=packages/cache fly:deploy && bun run --cwd=apps/server fly:deploy && bun run --cwd=apps/web fly:deploy"
 	},
